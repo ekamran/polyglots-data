@@ -12,9 +12,10 @@ import { writeTmx } from '../tmx/write.js'
 import { findSet, parseProjectApi } from '../wporg/api.js'
 import { createClient } from '../wporg/client.js'
 import { apiUrl, exportUrl } from '../wporg/urls.js'
+import { parseSmokeMax } from './args.js'
 
-const { values } = parseArgs({ options: { locale: { type: 'string' }, max: { type: 'string', default: '3' }, path: { type: 'string', multiple: true } } })
-const max = Math.min(3, Number(values.max))
+const { values } = parseArgs({ options: { locale: { type: 'string' }, max: { type: 'string' }, path: { type: 'string', multiple: true } } })
+const max = parseSmokeMax(values.max)
 const root = process.cwd()
 const wp = loadWpLocales(root)
 const { repo } = loadRepo(root, wp)

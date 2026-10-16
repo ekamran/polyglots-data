@@ -1,6 +1,6 @@
 import { execFileSync } from 'node:child_process'
 import { mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
-import { join } from 'node:path'
+import { join, relative, resolve } from 'node:path'
 import { parseArgs } from 'node:util'
 import { loadPrevious } from '../build/previous.js'
 import { renderReport } from '../build/report.js'
@@ -57,6 +57,9 @@ const result = await runBuild({
 }, createClient())
 
 const out = values.out ?? 'dist'
+const outAbs = resolve(root, out)
+const rel = relative(outAbs, resolve(root))
+if (rel === '' || !rel.startsWith('..')) throw new Error(`--out ${out} must not be the repo root or one of its parents`)
 rmSync(out, { recursive: true, force: true })
 mkdirSync(join(out, 'release'), { recursive: true })
 for (const [name, bytes] of result.assets) writeFileSync(join(out, 'release', name), bytes)
