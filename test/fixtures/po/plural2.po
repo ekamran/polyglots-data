@@ -1,0 +1,16 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+
+msgid "%d post"
+msgid_plural "%d posts"
+msgstr[0] "%d yazı"
+msgstr[1] "%d yazı"
+
+msgctxt "verb"
+msgid "Post"
+msgstr "Yayınla"
+
+msgid "Post"
+msgstr "Yazı"
