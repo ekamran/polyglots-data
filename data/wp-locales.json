@@ -1,0 +1,842 @@
+{
+  "source": "polyglots src/wporg/locales-data.ts",
+  "generated": "2026-10-16",
+  "locales": {
+    "af": {
+      "slug": "af",
+      "set": "default"
+    },
+    "am": {
+      "slug": "am",
+      "set": "default"
+    },
+    "ar": {
+      "slug": "ar",
+      "set": "default"
+    },
+    "arg": {
+      "slug": "an",
+      "set": "default"
+    },
+    "arq": {
+      "slug": "arq",
+      "set": "default"
+    },
+    "art_xemoji": {
+      "slug": "art-xemoji",
+      "set": "default"
+    },
+    "art_xpirate": {
+      "slug": "pirate",
+      "set": "default"
+    },
+    "ary": {
+      "slug": "ary",
+      "set": "default"
+    },
+    "as": {
+      "slug": "as",
+      "set": "default"
+    },
+    "ast": {
+      "slug": "ast",
+      "set": "default"
+    },
+    "az": {
+      "slug": "az",
+      "set": "default"
+    },
+    "az_TR": {
+      "slug": "az-tr",
+      "set": "default"
+    },
+    "azb": {
+      "slug": "azb",
+      "set": "default"
+    },
+    "ba": {
+      "slug": "ba",
+      "set": "default"
+    },
+    "bal": {
+      "slug": "bal",
+      "set": "default"
+    },
+    "bcc": {
+      "slug": "bcc",
+      "set": "default"
+    },
+    "bel": {
+      "slug": "bel",
+      "set": "default"
+    },
+    "bg_BG": {
+      "slug": "bg",
+      "set": "default"
+    },
+    "bgn": {
+      "slug": "bgn",
+      "set": "default"
+    },
+    "bho": {
+      "slug": "bho",
+      "set": "default"
+    },
+    "bn_BD": {
+      "slug": "bn",
+      "set": "default"
+    },
+    "bn_IN": {
+      "slug": "bn-in",
+      "set": "default"
+    },
+    "bo": {
+      "slug": "bo",
+      "set": "default"
+    },
+    "bre": {
+      "slug": "br",
+      "set": "default"
+    },
+    "brx": {
+      "slug": "brx",
+      "set": "default"
+    },
+    "bs_BA": {
+      "slug": "bs",
+      "set": "default"
+    },
+    "ca": {
+      "slug": "ca",
+      "set": "default"
+    },
+    "ca_valencia": {
+      "slug": "ca-val",
+      "set": "default"
+    },
+    "ceb": {
+      "slug": "ceb",
+      "set": "default"
+    },
+    "ckb": {
+      "slug": "ckb",
+      "set": "default"
+    },
+    "co": {
+      "slug": "co",
+      "set": "default"
+    },
+    "cor": {
+      "slug": "cor",
+      "set": "default"
+    },
+    "cs_CZ": {
+      "slug": "cs",
+      "set": "default"
+    },
+    "cy": {
+      "slug": "cy",
+      "set": "default"
+    },
+    "da_DK": {
+      "slug": "da",
+      "set": "default"
+    },
+    "de_AT": {
+      "slug": "de-at",
+      "set": "default"
+    },
+    "de_CH": {
+      "slug": "de-ch",
+      "set": "default"
+    },
+    "de_CH_informal": {
+      "slug": "de-ch",
+      "set": "informal"
+    },
+    "de_DE": {
+      "slug": "de",
+      "set": "default"
+    },
+    "de_DE_formal": {
+      "slug": "de",
+      "set": "formal"
+    },
+    "dsb": {
+      "slug": "dsb",
+      "set": "default"
+    },
+    "dv": {
+      "slug": "dv",
+      "set": "default"
+    },
+    "dzo": {
+      "slug": "dzo",
+      "set": "default"
+    },
+    "el": {
+      "slug": "el",
+      "set": "default"
+    },
+    "en_AU": {
+      "slug": "en-au",
+      "set": "default"
+    },
+    "en_CA": {
+      "slug": "en-ca",
+      "set": "default"
+    },
+    "en_GB": {
+      "slug": "en-gb",
+      "set": "default"
+    },
+    "en_NZ": {
+      "slug": "en-nz",
+      "set": "default"
+    },
+    "en_US": {
+      "slug": "en",
+      "set": "default"
+    },
+    "en_ZA": {
+      "slug": "en-za",
+      "set": "default"
+    },
+    "eo": {
+      "slug": "eo",
+      "set": "default"
+    },
+    "es_AR": {
+      "slug": "es-ar",
+      "set": "default"
+    },
+    "es_CL": {
+      "slug": "es-cl",
+      "set": "default"
+    },
+    "es_CO": {
+      "slug": "es-co",
+      "set": "default"
+    },
+    "es_CR": {
+      "slug": "es-cr",
+      "set": "default"
+    },
+    "es_DO": {
+      "slug": "es-do",
+      "set": "default"
+    },
+    "es_EC": {
+      "slug": "es-ec",
+      "set": "default"
+    },
+    "es_ES": {
+      "slug": "es",
+      "set": "default"
+    },
+    "es_GT": {
+      "slug": "es-gt",
+      "set": "default"
+    },
+    "es_HN": {
+      "slug": "es-hn",
+      "set": "default"
+    },
+    "es_MX": {
+      "slug": "es-mx",
+      "set": "default"
+    },
+    "es_PE": {
+      "slug": "es-pe",
+      "set": "default"
+    },
+    "es_PR": {
+      "slug": "es-pr",
+      "set": "default"
+    },
+    "es_UY": {
+      "slug": "es-uy",
+      "set": "default"
+    },
+    "es_VE": {
+      "slug": "es-ve",
+      "set": "default"
+    },
+    "et": {
+      "slug": "et",
+      "set": "default"
+    },
+    "eu": {
+      "slug": "eu",
+      "set": "default"
+    },
+    "ewe": {
+      "slug": "ee",
+      "set": "default"
+    },
+    "fa_AF": {
+      "slug": "fa-af",
+      "set": "default"
+    },
+    "fa_IR": {
+      "slug": "fa",
+      "set": "default"
+    },
+    "fi": {
+      "slug": "fi",
+      "set": "default"
+    },
+    "fo": {
+      "slug": "fo",
+      "set": "default"
+    },
+    "fon": {
+      "slug": "fon",
+      "set": "default"
+    },
+    "fr_BE": {
+      "slug": "fr-be",
+      "set": "default"
+    },
+    "fr_CA": {
+      "slug": "fr-ca",
+      "set": "default"
+    },
+    "fr_FR": {
+      "slug": "fr",
+      "set": "default"
+    },
+    "frp": {
+      "slug": "frp",
+      "set": "default"
+    },
+    "fuc": {
+      "slug": "fuc",
+      "set": "default"
+    },
+    "fur": {
+      "slug": "fur",
+      "set": "default"
+    },
+    "fy": {
+      "slug": "fy",
+      "set": "default"
+    },
+    "ga": {
+      "slug": "ga",
+      "set": "default"
+    },
+    "gax": {
+      "slug": "gax",
+      "set": "default"
+    },
+    "gd": {
+      "slug": "gd",
+      "set": "default"
+    },
+    "gl_ES": {
+      "slug": "gl",
+      "set": "default"
+    },
+    "gu": {
+      "slug": "gu",
+      "set": "default"
+    },
+    "hat": {
+      "slug": "hat",
+      "set": "default"
+    },
+    "hau": {
+      "slug": "hau",
+      "set": "default"
+    },
+    "haw_US": {
+      "slug": "haw",
+      "set": "default"
+    },
+    "haz": {
+      "slug": "haz",
+      "set": "default"
+    },
+    "he_IL": {
+      "slug": "he",
+      "set": "default"
+    },
+    "hi_IN": {
+      "slug": "hi",
+      "set": "default"
+    },
+    "hr": {
+      "slug": "hr",
+      "set": "default"
+    },
+    "hsb": {
+      "slug": "hsb",
+      "set": "default"
+    },
+    "hu_HU": {
+      "slug": "hu",
+      "set": "default"
+    },
+    "hy": {
+      "slug": "hy",
+      "set": "default"
+    },
+    "ibo": {
+      "slug": "ibo",
+      "set": "default"
+    },
+    "id_ID": {
+      "slug": "id",
+      "set": "default"
+    },
+    "ido": {
+      "slug": "ido",
+      "set": "default"
+    },
+    "is_IS": {
+      "slug": "is",
+      "set": "default"
+    },
+    "it_IT": {
+      "slug": "it",
+      "set": "default"
+    },
+    "ja": {
+      "slug": "ja",
+      "set": "default"
+    },
+    "jv_ID": {
+      "slug": "jv",
+      "set": "default"
+    },
+    "ka_GE": {
+      "slug": "ka",
+      "set": "default"
+    },
+    "kaa": {
+      "slug": "kaa",
+      "set": "default"
+    },
+    "kab": {
+      "slug": "kab",
+      "set": "default"
+    },
+    "kal": {
+      "slug": "kal",
+      "set": "default"
+    },
+    "kin": {
+      "slug": "kin",
+      "set": "default"
+    },
+    "kir": {
+      "slug": "kir",
+      "set": "default"
+    },
+    "kk": {
+      "slug": "kk",
+      "set": "default"
+    },
+    "km": {
+      "slug": "km",
+      "set": "default"
+    },
+    "kmr": {
+      "slug": "kmr",
+      "set": "default"
+    },
+    "kn": {
+      "slug": "kn",
+      "set": "default"
+    },
+    "ko_KR": {
+      "slug": "ko",
+      "set": "default"
+    },
+    "lb_LU": {
+      "slug": "lb",
+      "set": "default"
+    },
+    "li": {
+      "slug": "li",
+      "set": "default"
+    },
+    "lij": {
+      "slug": "lij",
+      "set": "default"
+    },
+    "lin": {
+      "slug": "lin",
+      "set": "default"
+    },
+    "lmo": {
+      "slug": "lmo",
+      "set": "default"
+    },
+    "lo": {
+      "slug": "lo",
+      "set": "default"
+    },
+    "lt_LT": {
+      "slug": "lt",
+      "set": "default"
+    },
+    "lug": {
+      "slug": "lug",
+      "set": "default"
+    },
+    "lv": {
+      "slug": "lv",
+      "set": "default"
+    },
+    "mai": {
+      "slug": "mai",
+      "set": "default"
+    },
+    "me_ME": {
+      "slug": "me",
+      "set": "default"
+    },
+    "mfe": {
+      "slug": "mfe",
+      "set": "default"
+    },
+    "mg_MG": {
+      "slug": "mg",
+      "set": "default"
+    },
+    "mk_MK": {
+      "slug": "mk",
+      "set": "default"
+    },
+    "ml_IN": {
+      "slug": "ml",
+      "set": "default"
+    },
+    "mlt": {
+      "slug": "mlt",
+      "set": "default"
+    },
+    "mn": {
+      "slug": "mn",
+      "set": "default"
+    },
+    "mr": {
+      "slug": "mr",
+      "set": "default"
+    },
+    "mri": {
+      "slug": "mri",
+      "set": "default"
+    },
+    "ms_MY": {
+      "slug": "ms",
+      "set": "default"
+    },
+    "my_MM": {
+      "slug": "mya",
+      "set": "default"
+    },
+    "nb_NO": {
+      "slug": "nb",
+      "set": "default"
+    },
+    "ne_NP": {
+      "slug": "ne",
+      "set": "default"
+    },
+    "nl_BE": {
+      "slug": "nl-be",
+      "set": "default"
+    },
+    "nl_NL": {
+      "slug": "nl",
+      "set": "default"
+    },
+    "nl_NL_formal": {
+      "slug": "nl",
+      "set": "formal"
+    },
+    "nn_NO": {
+      "slug": "nn",
+      "set": "default"
+    },
+    "nqo": {
+      "slug": "nqo",
+      "set": "default"
+    },
+    "oci": {
+      "slug": "oci",
+      "set": "default"
+    },
+    "ory": {
+      "slug": "ory",
+      "set": "default"
+    },
+    "os": {
+      "slug": "os",
+      "set": "default"
+    },
+    "pa_IN": {
+      "slug": "pa",
+      "set": "default"
+    },
+    "pa_PK": {
+      "slug": "pa-pk",
+      "set": "default"
+    },
+    "pap_AW": {
+      "slug": "pap-aw",
+      "set": "default"
+    },
+    "pap_CW": {
+      "slug": "pap-cw",
+      "set": "default"
+    },
+    "pcd": {
+      "slug": "pcd",
+      "set": "default"
+    },
+    "pcm": {
+      "slug": "pcm",
+      "set": "default"
+    },
+    "pl_PL": {
+      "slug": "pl",
+      "set": "default"
+    },
+    "ps": {
+      "slug": "ps",
+      "set": "default"
+    },
+    "pt_AO": {
+      "slug": "pt-ao",
+      "set": "default"
+    },
+    "pt_BR": {
+      "slug": "pt-br",
+      "set": "default"
+    },
+    "pt_PT": {
+      "slug": "pt",
+      "set": "default"
+    },
+    "pt_PT_ao90": {
+      "slug": "pt",
+      "set": "ao90"
+    },
+    "rhg": {
+      "slug": "rhg",
+      "set": "default"
+    },
+    "ro_RO": {
+      "slug": "ro",
+      "set": "default"
+    },
+    "roh": {
+      "slug": "roh",
+      "set": "default"
+    },
+    "ru_RU": {
+      "slug": "ru",
+      "set": "default"
+    },
+    "sa_IN": {
+      "slug": "sa-in",
+      "set": "default"
+    },
+    "sah": {
+      "slug": "sah",
+      "set": "default"
+    },
+    "scn": {
+      "slug": "scn",
+      "set": "default"
+    },
+    "si_LK": {
+      "slug": "si",
+      "set": "default"
+    },
+    "sk_SK": {
+      "slug": "sk",
+      "set": "default"
+    },
+    "skr": {
+      "slug": "skr",
+      "set": "default"
+    },
+    "sl_SI": {
+      "slug": "sl",
+      "set": "default"
+    },
+    "sna": {
+      "slug": "sna",
+      "set": "default"
+    },
+    "snd": {
+      "slug": "snd",
+      "set": "default"
+    },
+    "so_SO": {
+      "slug": "so",
+      "set": "default"
+    },
+    "sq": {
+      "slug": "sq",
+      "set": "default"
+    },
+    "sq_XK": {
+      "slug": "sq-xk",
+      "set": "default"
+    },
+    "sr_RS": {
+      "slug": "sr",
+      "set": "default"
+    },
+    "sr_RS_latin": {
+      "slug": "sr",
+      "set": "latin"
+    },
+    "srd": {
+      "slug": "srd",
+      "set": "default"
+    },
+    "ssw": {
+      "slug": "ssw",
+      "set": "default"
+    },
+    "su_ID": {
+      "slug": "su",
+      "set": "default"
+    },
+    "sv_SE": {
+      "slug": "sv",
+      "set": "default"
+    },
+    "sw": {
+      "slug": "sw",
+      "set": "default"
+    },
+    "syr": {
+      "slug": "syr",
+      "set": "default"
+    },
+    "szl": {
+      "slug": "szl",
+      "set": "default"
+    },
+    "ta_IN": {
+      "slug": "ta",
+      "set": "default"
+    },
+    "ta_LK": {
+      "slug": "ta-lk",
+      "set": "default"
+    },
+    "tah": {
+      "slug": "tah",
+      "set": "default"
+    },
+    "te": {
+      "slug": "te",
+      "set": "default"
+    },
+    "tg": {
+      "slug": "tg",
+      "set": "default"
+    },
+    "th": {
+      "slug": "th",
+      "set": "default"
+    },
+    "tir": {
+      "slug": "tir",
+      "set": "default"
+    },
+    "tl": {
+      "slug": "tl",
+      "set": "default"
+    },
+    "tr_TR": {
+      "slug": "tr",
+      "set": "default"
+    },
+    "tt_RU": {
+      "slug": "tt",
+      "set": "default"
+    },
+    "tuk": {
+      "slug": "tuk",
+      "set": "default"
+    },
+    "twd": {
+      "slug": "twd",
+      "set": "default"
+    },
+    "tzm": {
+      "slug": "tzm",
+      "set": "default"
+    },
+    "ug_CN": {
+      "slug": "ug",
+      "set": "default"
+    },
+    "uk": {
+      "slug": "uk",
+      "set": "default"
+    },
+    "ur": {
+      "slug": "ur",
+      "set": "default"
+    },
+    "uz_UZ": {
+      "slug": "uz",
+      "set": "default"
+    },
+    "vec": {
+      "slug": "vec",
+      "set": "default"
+    },
+    "vi": {
+      "slug": "vi",
+      "set": "default"
+    },
+    "wol": {
+      "slug": "wol",
+      "set": "default"
+    },
+    "xho": {
+      "slug": "xho",
+      "set": "default"
+    },
+    "yor": {
+      "slug": "yor",
+      "set": "default"
+    },
+    "zgh": {
+      "slug": "zgh",
+      "set": "default"
+    },
+    "zh_CN": {
+      "slug": "zh-cn",
+      "set": "default"
+    },
+    "zh_HK": {
+      "slug": "zh-hk",
+      "set": "default"
+    },
+    "zh_SG": {
+      "slug": "zh-sg",
+      "set": "default"
+    },
+    "zh_TW": {
+      "slug": "zh-tw",
+      "set": "default"
+    },
+    "zul": {
+      "slug": "zul",
+      "set": "default"
+    }
+  }
+}

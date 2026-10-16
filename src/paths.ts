@@ -3,7 +3,7 @@ export const PATH_RE = /^[a-z0-9-]+(?:\/(?!\.+(?:\/|$))[a-z0-9._-]+)*$/
 const LONG_TEXT = new Set(['dev-readme', 'stable-readme', 'release-notes'])
 // Translation set names on translate.wordpress.org; Task 2 Step 6 checks this
 // list against data/wp-locales.json.
-const SETS = new Set(['default', 'formal', 'informal', 'ao90'])
+const SETS = new Set(['default', 'formal', 'informal', 'ao90', 'latin'])
 
 /** Readme and release-notes projects: long prose, weighted low in the TM. */
 export function isLongText(path: string): boolean {

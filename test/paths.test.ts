@@ -37,3 +37,10 @@ describe('normalizePath', () => {
     expect(normalizePath('WP/dev').ok).toBe(false)
   })
 })
+
+describe('normalizePath with translation sets', () => {
+  it('strips the latin set from a pasted URL', () => {
+    const r = normalizePath('https://translate.wordpress.org/projects/wp-plugins/advanced-custom-fields/dev/sr/latin/')
+    expect(r).toMatchObject({ ok: false, suggestion: 'wp-plugins/advanced-custom-fields/dev' })
+  })
+})
