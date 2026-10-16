@@ -195,7 +195,9 @@ export async function runBuild(input: BuildInput, wporg: HttpClient): Promise<Bu
   }
   const manifest: Manifest = { schema: 1, generated: input.now.toISOString(), tm: tm.sort(byLocale), rules: rulesEntries(c).sort(byLocale) }
   // A damaged previous release means non-rebuilt locales lost their entries: build and report, never publish.
-  const damaged = !previous.first && previous.problems.length > 0
+  // Recovery: a forced rebuild of every mapped TM locale carries nothing forward from the damaged release.
+  const fullForced = input.force && withTm.every((l) => !input.wp.has(l.code) || rebuild.has(l.code))
+  const damaged = !previous.first && previous.problems.length > 0 && !fullForced
   const publish = previous.first || (!damaged && (comparable(manifest) !== comparable(previous.index) || stableState(state) !== stableState(previous.state)))
   c.assets.set('index.json', json(manifest))
   c.assets.set('state.json', json(state))

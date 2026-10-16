@@ -142,6 +142,16 @@ describe('publish rules', () => {
     expect(b.publish).toBe(false)
   })
 
+  it('publishes a damaged previous only after a forced full rebuild', async () => {
+    const r1 = await runBuild(input({ repo: repo([]) }), client(files()))
+    const damaged = { ...previousFrom(r1), index: undefined, problems: ['index.json: HTTP 502'] }
+    const ok = await runBuild(input({ repo: repo([]), previous: damaged, force: true, now: later }), client(files()))
+    expect(ok.publish).toBe(true)
+    expect(ok.red).toContain('previous release: index.json: HTTP 502')
+    const partial = await runBuild(input({ repo: repo([]), previous: damaged, force: true, rebuild: [], now: later }), client(files()))
+    expect(partial.publish).toBe(false)
+  })
+
   it('ignores the tool version in the TMX', async () => {
     const r1 = await runBuild(input({ repo: repo([]), toolVersion: 'aaa' }), client(files()))
     const r2 = await runBuild(input({ repo: repo([]), toolVersion: 'bbb', previous: previousFrom(r1), now: later }), client(files()))
