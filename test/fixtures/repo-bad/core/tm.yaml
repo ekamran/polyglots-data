@@ -1,0 +1,3 @@
+projects:
+  - path: wp/dev
+  - path: wp/dev/cc

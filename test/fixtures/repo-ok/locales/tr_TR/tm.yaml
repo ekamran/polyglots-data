@@ -1,0 +1,7 @@
+projects:
+  - path: wp-plugins/debug-bar/dev
+    added: 2026-10-16
+    by: emre
+    reviewed: Reviewed by the tr_TR team.
+exclude:
+  - wp/dev/cc

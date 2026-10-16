@@ -1,0 +1,6 @@
+locale: tr
+maintainers:
+  - github: someone
+    role: Locale Manager
+rules:
+  status: maintained

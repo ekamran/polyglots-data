@@ -1,0 +1,16 @@
+projects:
+  - path: wp/dev
+    added: 2026-10-16
+    by: emre
+    reviewed: x
+  - path: https://translate.wordpress.org/projects/wp-plugins/acf/dev/tr/default/
+    added: 2026-10-16
+    by: emre
+    reviewed: x
+  - path: wp-plugins/a/dev
+    added: 16.10.2026
+    by: emre
+    reviewed: x
+    typo: 1
+exclude:
+  - wp-plugins/not-core/dev
