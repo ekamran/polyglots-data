@@ -77,7 +77,9 @@ export function parseLocaleMeta(text: string, file: string, code?: string): { me
 export function loadRepo(root: string, wp: WpLocales): { repo: Repo; issues: ConfigIssue[] } {
   const issues: ConfigIssue[] = []
   const coreFile = join(root, 'core', 'tm.yaml')
-  const core = existsSync(coreFile) ? (parse(CoreTmSchema, readFileSync(coreFile, 'utf8'), coreFile, issues)?.projects.map((p) => p.path) ?? []) : []
+  let core: string[] = []
+  if (existsSync(coreFile)) core = parse(CoreTmSchema, readFileSync(coreFile, 'utf8'), coreFile, issues)?.projects.map((p) => p.path) ?? []
+  else issues.push({ file: coreFile, message: 'core/tm.yaml is missing' })
   checkPaths(core, coreFile, issues)
 
   const locales = new Map<string, LocaleData>()

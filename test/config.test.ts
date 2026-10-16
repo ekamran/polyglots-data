@@ -17,6 +17,12 @@ describe('loadRepo', () => {
     expect(repo.locales.get('el')?.tm).toBeUndefined()
   })
 
+  it('reports a missing core/tm.yaml instead of an empty core', () => {
+    const { repo, issues } = loadRepo(fx('repo-nocore'), wp)
+    expect(repo.core).toEqual([])
+    expect(issues).toEqual([{ file: join(fx('repo-nocore'), 'core', 'tm.yaml'), message: 'core/tm.yaml is missing' }])
+  })
+
   it('reports every problem with its file', () => {
     const { issues } = loadRepo(fx('repo-bad'), wp)
     const text = issues.map((i) => `${i.file.split('fixtures/repo-bad/')[1]}: ${i.message}`)
