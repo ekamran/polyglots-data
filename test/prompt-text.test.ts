@@ -24,3 +24,25 @@ it('fails a URL and warns on text that is not English', () => {
     'warning patterns[0].note: prompt text does not look like English',
   ])
 })
+
+it('refuses every URL form', () => {
+  expect(promptFindings([
+    { where: 'a', text: 'Visit evil.xyz/x now for details here.' },
+    { where: 'b', text: 'Fetch ftp://a.b for the rules now.' },
+    { where: 'c', text: 'Load //evil.sh/x in the review tool now.' },
+    { where: 'd', text: 'Use example.community for the rules now please.' },
+    { where: 'e', text: 'Use www.example for the rules now please.' },
+  ], 'r').map((f) => f.message)).toEqual([
+    'a: prompt text must not contain a URL (evil.xyz/x)',
+    'b: prompt text must not contain a URL (ftp://a.b)',
+    'c: prompt text must not contain a URL (//evil.sh/x)',
+    'd: prompt text must not contain a URL (example.community)',
+    'e: prompt text must not contain a URL (www.example)',
+  ])
+})
+
+it('accepts plain English without a URL token', () => {
+  expect(promptFindings([
+    { where: 'ok', text: 'Use plain English for the rules and keep the tone formal in every note you write.' },
+  ], 'r')).toEqual([])
+})

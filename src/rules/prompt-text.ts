@@ -1,25 +1,32 @@
 import type { Finding } from '../findings.js'
 import type { PromptItem } from './items.js'
+import { URL_TOKEN } from './url-tokens.js'
 
-const URL_RE = /\bhttps?:\/\/\S+|\bwww\.\S+|\b[a-z0-9-]+\.(?:com|org|net|io|dev|app|info|me|co|tr|de|fr|es|it|nl|se|ru|cn|jp|uk)\b(?:\/\S*)?/i
 const FUNCTION_WORDS = new Set('the a an of to in on for and or not is are be with as by that this it at from use do does when if than then its your you write no but only which one'.split(' '))
 const QUOTED = /"[^"]*"|“[^”]*”|«[^»]*»|`[^`]*`/g
 const MIN_WORDS = 12
 const MIN_RATIO = 0.12
 const MAX_NON_LATIN = 0.1
 
+/** The whitespace-delimited word that holds the match at `index`, without trailing punctuation. */
+function wordAt(text: string, index: number, match: string): string {
+  const before = text.slice(0, index).match(/\S*$/)?.[0] ?? ''
+  const after = text.slice(index + match.length).match(/^\S*/)?.[0] ?? ''
+  return (before + match + after).replace(/[.,;:!?)]+$/, '')
+}
+
 /**
- * Prompt text reaches the AI reviewer of every user of the locale. A URL is
- * refused outright. "Is it English" is a heuristic, so it only warns: quoted
+ * Prompt text reaches the AI reviewer of every user of the locale. A URL token
+ * is refused outright. "Is it English" is a heuristic, so it only warns: quoted
  * examples in the locale's language are removed first, and texts too short
  * to judge are skipped.
  */
 export function promptFindings(prompts: PromptItem[], file: string): Finding[] {
   const out: Finding[] = []
   for (const p of prompts) {
-    const url = URL_RE.exec(p.text)
-    if (url) {
-      out.push({ level: 'error', check: 'prompt', file, message: `${p.where}: prompt text must not contain a URL (${url[0].replace(/[.,;)]+$/, '')})` })
+    const hit = URL_TOKEN.exec(p.text)
+    if (hit) {
+      out.push({ level: 'error', check: 'prompt', file, message: `${p.where}: prompt text must not contain a URL (${wordAt(p.text, hit.index, hit[0])})` })
       continue
     }
     const bare = p.text.replace(QUOTED, ' ')
