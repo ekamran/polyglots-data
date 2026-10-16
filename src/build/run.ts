@@ -109,7 +109,9 @@ async function buildLocale(c: Ctx, l: LocaleData, loc: WpLocale): Promise<{ entr
     } else if (o.kind === 'stale') {
       kept.push({ path, units: o.last.units, built: o.last.built, stale: o.last.built })
       // The alarm clock starts at the first failure, not at the last good build: old content that fails once is not red.
-      const staleSince = cached!.staleSince ?? nowIso
+      // A malformed value from an old state.json restarts the clock instead of silencing it.
+      const prior = cached!.staleSince
+      const staleSince = typeof prior === 'string' && !Number.isNaN(Date.parse(prior)) ? prior : nowIso
       projectsState[path] = { ...cached!, staleSince }
       c.log.push({ locale: l.code, path, action: 'stale', units: o.last.units.length, note: o.reason })
       if (nowMs - Date.parse(staleSince) > STALE_RED_DAYS * DAY) c.red.push(`${l.code} ${path}: stale since ${staleSince} (${o.reason}); last good ${o.last.built}`)
