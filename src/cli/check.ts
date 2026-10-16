@@ -3,7 +3,7 @@ import { join } from 'node:path'
 import { parseArgs } from 'node:util'
 import YAML from 'yaml'
 import { approvalLines } from '../check/approval.js'
-import { changedFiles, showFile } from '../check/git.js'
+import { changedFiles, isFullSha, showFile } from '../check/git.js'
 import { getFileAtRef, listPrFiles, listReviews } from '../check/github.js'
 import { addedPaths, newPathFindings } from '../check/new-paths.js'
 import { diffItems } from '../check/rules-diff.js'
@@ -34,8 +34,7 @@ if (values.approval) {
     const repo = values.repo ?? '', base = values.base ?? '', head = values.head ?? ''
     if (!/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(repo)) throw new Error('invalid --repo')
     if (!/^[1-9][0-9]*$/.test(values.pr ?? '')) throw new Error('invalid --pr')
-    if (!/^[0-9a-f]{7,64}$/i.test(base)) throw new Error('invalid --base')
-    if (!/^[0-9a-f]{7,64}$/i.test(head)) throw new Error('invalid --head')
+    if (!isFullSha(base) || !isFullSha(head)) throw new Error('invalid --base/--head')
     const pr = Number(values.pr)
     const token = process.env.GITHUB_TOKEN ?? ''
     const files = await listPrFiles(repo, pr, token)
@@ -57,7 +56,8 @@ if (values.approval) {
 const sections: Section[] = []
 let failed = false
 try {
-  const base = values.base!, head = values.head!, author = values.author ?? ''
+  if (!isFullSha(values.base) || !isFullSha(values.head)) throw new Error('--base and --head must be full commit shas')
+  const base = values.base, head = values.head, author = values.author ?? ''
   const files = changedFiles(base, head)
   const wp = loadWpLocales(root)
 

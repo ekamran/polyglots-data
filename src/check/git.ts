@@ -11,3 +11,6 @@ export function showFile(rev: string, path: string): string | undefined {
     return undefined
   }
 }
+
+/** Full lowercase commit sha (SHA-1 or SHA-256). */
+export const isFullSha = (s: string | undefined): s is string => /^(?:[0-9a-f]{40}|[0-9a-f]{64})$/.test(s ?? '')
