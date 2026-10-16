@@ -17,7 +17,12 @@ describe('timeRegexes', () => {
   })
   it('kills and reports a catastrophic regex', async () => {
     const f = await timeRegexes([{ where: 'bad', source: '^(a+)+$' }], ['a'.repeat(40) + '!'], 'r.yaml', { hardMs: 1000, adversarial: false })
-    expect(f).toEqual([{ level: 'error', check: 'regex-time', file: 'r.yaml', message: 'bad: did not finish within 1000 ms' }])
+    expect(f).toEqual([{ level: 'error', check: 'regex-time', file: 'r.yaml', message: 'bad: did not finish within 1000 ms on a string of 41 characters' }])
+  })
+  it('catches with adversarial strings a ReDoS the corpus misses', async () => {
+    const f = await timeRegexes([{ where: 'bad', source: '^(a+)+$' }], ['hello'], 'r.yaml', { hardMs: 1000 })
+    expect(f).toHaveLength(1)
+    expect(f[0]).toMatchObject({ level: 'error', check: 'regex-time' })
   })
   it('reports a regex over the budget', async () => {
     const f = await timeRegexes([{ where: 'slow', source: '(?:a|a)*b' }], ['a'.repeat(18)], 'r.yaml', { budgetMs: 0.001, hardMs: 5000, adversarial: false })

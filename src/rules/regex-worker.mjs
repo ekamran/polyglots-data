@@ -5,7 +5,8 @@ import { parentPort, workerData } from 'node:worker_threads'
 const { source, strings } = workerData
 const re = new RegExp(source, 'gu')
 let worst = { ms: 0, length: 0 }
-for (const text of strings) {
+for (const [index, text] of strings.entries()) {
+  parentPort.postMessage({ kind: 'progress', index })
   let best = Infinity
   // Twice, keeping the faster run, so JIT warm-up does not count.
   for (let i = 0; i < 2; i++) {
@@ -15,4 +16,4 @@ for (const text of strings) {
   }
   if (best > worst.ms) worst = { ms: best, length: text.length }
 }
-parentPort.postMessage(worst)
+parentPort.postMessage({ kind: 'done', ...worst })
