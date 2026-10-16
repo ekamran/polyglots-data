@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tmx version="1.4">
+  <header srclang="en" datatype="PlainText" segtype="sentence" creationtool="polyglots-data" creationtoolversion="1" adminlang="en" o-tmf="po" creationdate="20261016T030000Z"/>
+  <body>
+    <tu>
+      <prop type="x-project">wp/dev</prop>
+      <tuv xml:lang="en"><seg>%d post</seg></tuv>
+      <tuv xml:lang="tr-TR"><seg>%d yazı</seg></tuv>
+    </tu>
+    <tu>
+      <prop type="x-project">wp/dev</prop>
+      <tuv xml:lang="en"><seg>%d posts</seg></tuv>
+      <tuv xml:lang="tr-TR"><seg>%d yazı</seg></tuv>
+    </tu>
+    <tu>
+      <prop type="x-project">wp-plugins/a/dev-readme</prop>
+      <prop type="x-weight">low</prop>
+      <tuv xml:lang="en"><seg>A long readme paragraph.</seg></tuv>
+      <tuv xml:lang="tr-TR"><seg>Uzun bir benioku paragrafı.</seg></tuv>
+    </tu>
+    <tu>
+      <prop type="x-project">wp/dev</prop>
+      <tuv xml:lang="en"><seg>Post</seg></tuv>
+      <tuv xml:lang="tr-TR"><seg>Yazı</seg></tuv>
+    </tu>
+    <tu>
+      <prop type="x-context">verb</prop>
+      <prop type="x-project">wp/dev</prop>
+      <tuv xml:lang="en"><seg>Post</seg></tuv>
+      <tuv xml:lang="tr-TR"><seg>Yayınla</seg></tuv>
+    </tu>
+    <tu>
+      <prop type="x-project">wp/dev</prop>
+      <prop type="x-project">wp-plugins/a/dev-readme</prop>
+      <tuv xml:lang="en"><seg>Shared &amp; &lt;b&gt;</seg></tuv>
+      <tuv xml:lang="tr-TR"><seg>Ortak &amp; &lt;b&gt;</seg></tuv>
+    </tu>
+  </body>
+</tmx>
