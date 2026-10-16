@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { createClient, parseRetryAfter, USER_AGENT } from '../src/wporg/client.js'
+import { createClient, parseRetryAfter, UNREACHABLE, USER_AGENT } from '../src/wporg/client.js'
 
 function harness(responses: Array<Response | Error>) {
   let clock = 0
@@ -61,5 +61,27 @@ describe('parseRetryAfter', () => {
     expect(parseRetryAfter('3600', 0)).toBe(300_000)
     expect(parseRetryAfter(null, 0)).toBeUndefined()
     expect(parseRetryAfter('soon', 0)).toBeUndefined()
+  })
+})
+
+describe('network circuit breaker', () => {
+  it('fails fast after 5 consecutive network failures', async () => {
+    const h = harness(Array.from({ length: 10 }, () => new Error('ECONNREFUSED')))
+    const a = await h.client.get('https://x.test/1') // 4 attempts
+    expect(a.ok).toBe(false)
+    const b = await h.client.get('https://x.test/2') // 1 more attempt trips the breaker
+    expect(b).toEqual({ ok: false, error: UNREACHABLE })
+    expect(h.calls.length).toBe(5)
+    const c = await h.client.get('https://x.test/3')
+    expect(c).toEqual({ ok: false, error: 'translate.wordpress.org unreachable; stopped after 5 network failures' })
+    expect(h.calls.length).toBe(5)
+  })
+
+  it('an HTTP response resets the count', async () => {
+    const err = () => new Error('ETIMEDOUT')
+    const h = harness([err(), err(), err(), new Response('', { status: 404 }), err(), err(), err(), new Response('ok')])
+    expect((await h.client.get('https://x.test/1')).ok).toBe(false) // 3 failures, then 404
+    expect((await h.client.get('https://x.test/2')).ok).toBe(true) // 3 failures, then ok: never 5 in a row
+    expect(h.calls.length).toBe(8)
   })
 })

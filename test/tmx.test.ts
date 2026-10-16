@@ -27,3 +27,15 @@ it('writes the agreed TMX shape', () => {
   expect(xml).not.toContain('<note>')
   expect(escapeXml('A & <b>"c"</b>')).toBe('A &amp; &lt;b&gt;&quot;c&quot;&lt;/b&gt;')
 })
+
+it('keeps a carriage return through an XML parser', async () => {
+  const { XMLParser } = await import('fast-xml-parser')
+  expect(escapeXml('a\r\nb')).toBe('a&#13;\nb')
+  const xml = writeTmx([{ source: 'a\r\nb', context: 'c\rd', target: 'x\ry', projects: ['wp/dev'], low: false }], { lang: 'tr-TR', toolVersion: '1\r', created: new Date(0) })
+  expect(xml).not.toContain('\r')
+  expect(XMLValidator.validate(xml)).toBe(true)
+  // The same parser options polyglots' tmx/parse.ts uses.
+  const doc = new XMLParser({ preserveOrder: false, ignoreAttributes: false, attributeNamePrefix: '', trimValues: false, parseTagValue: false, parseAttributeValue: false, processEntities: true, htmlEntities: true }).parse(xml)
+  expect(doc.tmx.body.tu.tuv[0].seg).toBe('a\r\nb')
+  expect(doc.tmx.header.creationtoolversion).toBe('1\r')
+})

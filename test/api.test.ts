@@ -10,6 +10,12 @@ describe('urls', () => {
     expect(exportUrl('wp/dev', { slug: 'nl', set: 'formal' })).toBe(
       'https://translate.wordpress.org/projects/wp/dev/nl/formal/export-translations/?filters%5Bstatus%5D=current&format=po')
   })
+  it('refuses a path that is not a project path', () => {
+    for (const p of ['../x', 'wp/dev/../../x', 'wp/dev?x=1', 'wp/dev#a', 'https://evil.test/', '', 'Wp/dev']) {
+      expect(() => apiUrl(p), p).toThrow(/not a project path/)
+      expect(() => exportUrl(p, { slug: 'tr', set: 'default' }), p).toThrow(/not a project path/)
+    }
+  })
 })
 
 describe('parseProjectApi', () => {

@@ -56,7 +56,7 @@ const minPolyglots = pkg.devDependencies?.polyglots
 if (!minPolyglots || !/^\d+\.\d+\.\d+$/.test(minPolyglots)) throw new Error('package.json must pin polyglots to an exact version')
 const toolVersion = (process.env.GITHUB_SHA ?? execFileSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8' })).trim().slice(0, 12)
 
-const github = createClient({ delayMs: 0, timeoutMs: 120_000 })
+const github = createClient({ host: 'github.com', delayMs: 0, timeoutMs: 120_000 })
 const previous = await loadPrevious(github, { firstRun: values['first-run'] ?? false, base: values['previous-base'] })
 const result = await runBuild({
   repo, wp, previous, rebuild, force: values.force ?? false, accept: new Set(accept),

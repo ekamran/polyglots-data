@@ -1,6 +1,6 @@
 import YAML from 'yaml'
 import type { Finding } from '../findings.js'
-import { isLongText } from '../paths.js'
+import { isLongText, PATH_RE } from '../paths.js'
 import { findSet, parseProjectApi } from '../wporg/api.js'
 import type { HttpClient } from '../wporg/client.js'
 import { apiUrl } from '../wporg/urls.js'
@@ -18,9 +18,14 @@ function paths(text: string | undefined): string[] {
   }
 }
 
+/**
+ * New project paths in a tm.yaml. A path that fails PATH_RE is already a
+ * schema error; it is dropped here so it neither counts towards the cap nor
+ * reaches a URL.
+ */
 export function addedPaths(baseText: string | undefined, headText: string): string[] {
   const before = new Set(paths(baseText))
-  return paths(headText).filter((p) => !before.has(p))
+  return paths(headText).filter((p) => !before.has(p) && PATH_RE.test(p))
 }
 
 export async function newPathFindings(added: string[], locales: Array<{ code: string; slug: string; set: string }>, client: HttpClient): Promise<{ findings: Finding[]; lines: string[] }> {

@@ -11,6 +11,10 @@ const tr = [{ code: 'tr_TR', slug: 'tr', set: 'default' }]
 describe('new paths', () => {
   it('finds only added paths', () => expect(addedPaths(yaml(['a/dev']), yaml(['a/dev', 'b/dev']))).toEqual(['b/dev']))
   it('treats a missing base as empty', () => expect(addedPaths(undefined, yaml(['a/dev']))).toEqual(['a/dev']))
+  it('drops paths that fail PATH_RE before they count', () => {
+    const bad = Array.from({ length: 30 }, (_, i) => `../x${i}`)
+    expect(addedPaths(undefined, yaml([...bad, 'https://evil.test/x', 'Wp/Dev', 'ok/dev']))).toEqual(['ok/dev'])
+  })
   it('reports counts and enforces 90% except for long text', async () => {
     const r = await newPathFindings(['wp-plugins/acf/dev', 'wp-plugins/low/dev', 'wp-plugins/low/dev-readme', 'wp-plugins/none/dev'], tr, client({
       [apiUrl('wp-plugins/acf/dev')]: sets(1746, 1790),

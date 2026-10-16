@@ -20,6 +20,9 @@ export function poToUnits(body: Buffer): PoResult {
   } catch (err) {
     return { ok: false, error: `parse: ${err instanceof Error ? err.message : String(err)}` }
   }
+  // Every GlotPress export starts with the header entry (msgid "" with the headers in msgstr).
+  // A text page that starts with '#' and happens to parse has none.
+  if (catalog.translations['']?.['']?.msgstr?.[0] === undefined) return { ok: false, error: 'not a .po file' }
   const nplurals = /nplurals\s*=\s*(\d+)/.exec(catalog.headers['Plural-Forms'] ?? '')?.[1]
   const seen = new Set<string>()
   const units: Unit[] = []
@@ -35,6 +38,10 @@ export function poToUnits(body: Buffer): PoResult {
         if (!target || target.trim() === '') continue
         if (XML_INVALID.test(source) || XML_INVALID.test(target) || XML_INVALID.test(context)) {
           return { ok: false, error: `a character not allowed in XML in "${source.slice(0, 40)}"` }
+        }
+        // A lone surrogate would be written as U+FFFD in UTF-8: the TMX would not hold what the export said.
+        if (!source.isWellFormed() || !target.isWellFormed() || !context.isWellFormed()) {
+          return { ok: false, error: `parse: a lone surrogate (not well-formed UTF-16) in "${source.slice(0, 40).toWellFormed()}"` }
         }
         const key = JSON.stringify([source, context, target])
         if (seen.has(key)) continue

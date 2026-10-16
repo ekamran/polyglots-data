@@ -1,7 +1,8 @@
 import type { MergedUnit } from '../build/merge.js'
 
 export function escapeXml(s: string): string {
-  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
+  // A raw CR would be normalised to LF by every XML parser (and in attributes to a space); &#13; keeps it.
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/\r/g, '&#13;')
 }
 
 export function tmxDate(d: Date): string {

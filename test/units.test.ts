@@ -41,3 +41,11 @@ describe('poToUnits', () => {
     expect(poToUnits(po('fuzzy-blank.po'))).toEqual({ ok: true, units: [{ source: 'Good', context: '', target: 'İyi' }] })
   })
 })
+
+describe('poToUnits input checks', () => {
+  it('rejects a text page that starts with # and parses without a header', () => {
+    expect(poToUnits(Buffer.from('# Maintenance\n'))).toEqual({ ok: false, error: 'not a .po file' })
+    expect(poToUnits(Buffer.from('# note\n\nmsgid "a"\nmsgstr "b"\n'))).toEqual({ ok: false, error: 'not a .po file' })
+    expect(poToUnits(Buffer.from('# Error\nSomething went wrong\n'))).toMatchObject({ ok: false })
+  })
+})
