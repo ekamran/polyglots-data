@@ -1,8 +1,9 @@
 export const REPO = 'emreerkan/polyglots-data'
 export const LATEST = `https://github.com/${REPO}/releases/latest/download/`
+export const RELEASE_DOWNLOAD = `https://github.com/${REPO}/releases/download/`
 
 export function releaseUrl(tag: string, file: string): string {
-  return `https://github.com/${REPO}/releases/download/${tag}/${file}`
+  return `${RELEASE_DOWNLOAD}${tag}/${file}`
 }
 
 export interface ManifestProject { path: string; units: number; stale?: string; kind?: 'long-text' }
