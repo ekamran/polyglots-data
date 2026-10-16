@@ -3,9 +3,10 @@ name: Build
 on:
   # schedule:
   #   - cron: '17 3 * * 1'   # weekly, Monday 03:17 UTC; enabled after the first approved full build
-  push:
-    branches: [main]
-    paths: ['core/**', 'locales/**', 'data/**', 'src/**', 'package.json', 'package-lock.json']
+  # Enabled after the maintainer approves the first full build; a push that changes a tm.yaml downloads that whole locale.
+  # push:
+  #   branches: [main]
+  #   paths: ['core/**', 'locales/**', 'data/**', 'src/**', 'package.json', 'package-lock.json']
   workflow_dispatch:
     inputs:
       locales:
@@ -30,6 +31,7 @@ concurrency:
 
 jobs:
   build:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 340
     permissions:
@@ -68,6 +70,15 @@ jobs:
           if [ "$(jq -r .publish dist/outcome.json)" = "true" ]; then
             gh release create "$TAG" --draft --target "$GITHUB_SHA" --title "$TAG" --notes-file dist/report.md dist/release/*
             gh release edit "$TAG" --draft=false --latest
+          fi
+      - name: Clean up draft
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ -f dist/outcome.json ]; then
+            TAG=$(jq -r .tag dist/outcome.json)
+            gh release delete "$TAG" --yes --cleanup-tag || true
           fi
       - name: Report
         if: always()
