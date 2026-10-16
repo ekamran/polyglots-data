@@ -1,0 +1,39 @@
+name: Approval
+
+# Separate from pr.yml so a review event never re-runs (or cancels) the PR checks.
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  pull_request_review:
+    types: [submitted, dismissed]
+
+permissions:
+  contents: read
+  pull-requests: read
+
+concurrency:
+  group: approval-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  approval:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        with:
+          node-version: '24.16.0'
+          cache: npm
+      - run: npm ci
+      - name: Check approval
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: npm run check -- --approval --repo "$REPO" --pr "$PR_NUMBER" --base "$BASE_SHA" --head "$HEAD_SHA"

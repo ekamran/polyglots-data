@@ -43,10 +43,18 @@ jobs:
           persist-credentials: false
       - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
         with:
-          node-version: 24
+          node-version: '24.16.0'
           cache: npm
       - run: npm ci
       - run: npm test
+      - name: Detect first run
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # Only a repository with no release at all is a first run; a 404 on index.json otherwise is a damaged release.
+          # The assignment makes a failed gh call fail the step (bash -e) instead of reading as "no release".
+          LATEST_TAG=$(gh release list --limit 1 --json tagName --jq '.[].tagName')
+          if [ -z "$LATEST_TAG" ]; then echo FIRST=--first-run >> "$GITHUB_ENV"; fi
       - name: Build
         env:
           EVENT: ${{ github.event_name }}
@@ -57,6 +65,7 @@ jobs:
         run: |
           TAG="data-$(date -u +%Y%m%d-%H%M%S)"
           ARGS=(--tag "$TAG")
+          if [ -n "${FIRST:-}" ]; then ARGS+=("$FIRST"); fi
           if [ "$EVENT" = "push" ]; then ARGS+=(--changed-from "$BEFORE"); fi
           if [ -n "$LOCALES" ]; then ARGS+=(--locale "$LOCALES"); fi
           if [ "$FORCE" = "true" ]; then ARGS+=(--force); fi
@@ -68,17 +77,20 @@ jobs:
         run: |
           TAG=$(jq -r .tag dist/outcome.json)
           if [ "$(jq -r .publish dist/outcome.json)" = "true" ]; then
-            gh release create "$TAG" --draft --target "$GITHUB_SHA" --title "$TAG" --notes-file dist/report.md dist/release/*
+            gh release create "$TAG" --draft --target "$GITHUB_SHA" --title "$TAG" --notes-file dist/notes.md dist/release/*
             gh release edit "$TAG" --draft=false --latest
           fi
       - name: Clean up draft
-        if: failure()
+        if: failure() || cancelled()
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           if [ -f dist/outcome.json ]; then
             TAG=$(jq -r .tag dist/outcome.json)
-            gh release delete "$TAG" --yes --cleanup-tag || true
+            # Only a draft is ours to delete: a published release stays even when a later step fails.
+            if [ "$(gh release view "$TAG" --json isDraft --jq .isDraft 2>/dev/null)" = "true" ]; then
+              gh release delete "$TAG" --yes --cleanup-tag
+            fi
           fi
       - name: Report
         if: always()
