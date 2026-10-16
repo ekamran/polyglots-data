@@ -23,6 +23,14 @@ describe('normalizePath', () => {
     const r = normalizePath('https://translate.wordpress.org/projects/wp/dev/admin/')
     expect(r).toMatchObject({ ok: false, suggestion: 'wp/dev/admin' })
   })
+  it('rejects dot-only segments', () => {
+    expect(normalizePath('wp/../x').ok).toBe(false)
+    expect(normalizePath('wp/./x').ok).toBe(false)
+    expect(normalizePath('wp/x/..').ok).toBe(false)
+  })
+  it('keeps a dot inside a segment', () => {
+    expect(normalizePath('wp-plugins/a.b/dev')).toEqual({ ok: true, path: 'wp-plugins/a.b/dev' })
+  })
   it('rejects slashes at the ends and upper case', () => {
     expect(normalizePath('/wp/dev').ok).toBe(false)
     expect(normalizePath('wp/dev/').ok).toBe(false)

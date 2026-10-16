@@ -1,4 +1,4 @@
-export const PATH_RE = /^[a-z0-9-]+(?:\/[a-z0-9._-]+)*$/
+export const PATH_RE = /^[a-z0-9-]+(?:\/(?!\.+(?:\/|$))[a-z0-9._-]+)*$/
 
 const LONG_TEXT = new Set(['dev-readme', 'stable-readme', 'release-notes'])
 // Translation set names on translate.wordpress.org; Task 2 Step 6 checks this
