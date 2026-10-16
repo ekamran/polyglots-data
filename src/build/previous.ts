@@ -24,17 +24,23 @@ function isStateLocale(v: unknown): v is StateLocale {
   return isObject(v) && typeof v.units === 'string' && typeof v.sha512 === 'string' && isObject(v.projects)
 }
 
+export interface PreviousOptions { firstRun: boolean; base?: string; unitsPrefix?: string }
+
 /**
- * The latest release's manifest, state and units files. A 404 on index.json
- * means no release exists yet: the first run. Anything missing or malformed
- * is a problem the run reports (red); the build then runs as if there were
- * no cache. Nothing here throws on bad release data.
+ * The latest release's manifest, state and units files. Only with firstRun
+ * (the workflow saw no release at all) does a 404 on index.json mean the
+ * first run; otherwise a 404 is a problem like any other, so a release that
+ * lost its index.json can never be taken for a fresh start. Anything missing
+ * or malformed is a problem the run reports (red); the build then runs as if
+ * there were no cache. Nothing here throws on bad release data.
  */
-export async function loadPrevious(client: HttpClient, base = LATEST, unitsPrefix = RELEASE_DOWNLOAD): Promise<Previous> {
+export async function loadPrevious(client: HttpClient, opts: PreviousOptions): Promise<Previous> {
+  const base = opts.base ?? LATEST
+  const unitsPrefix = opts.unitsPrefix ?? RELEASE_DOWNLOAD
   const out: Previous = { first: false, state: { schema: 1, locales: {} }, units: new Map(), problems: [] }
   const idx = await client.get(base + 'index.json')
   if (!idx.ok) {
-    if (idx.status === 404) return { ...out, first: true }
+    if (idx.status === 404 && opts.firstRun) return { ...out, first: true }
     out.problems.push(`index.json: ${idx.error}`)
     return out
   }

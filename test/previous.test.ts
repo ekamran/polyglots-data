@@ -19,18 +19,29 @@ const gz = (v: unknown) => gzipSync(Buffer.from(JSON.stringify(v)))
 const INDEX = json({ schema: 1, generated: 'x', tm: [], rules: [] })
 
 describe('loadPrevious', () => {
-  it('is the first run when no release exists', async () => {
-    const p = await loadPrevious(fake({}), B, U)
+  it('is the first run when no release exists and the caller says so', async () => {
+    const p = await loadPrevious(fake({}), { firstRun: true, base: B, unitsPrefix: U })
     expect(p).toMatchObject({ first: true, problems: [] })
   })
 
+  it('a 404 on index.json without firstRun is a problem, not a first run', async () => {
+    const p = await loadPrevious(fake({}), { firstRun: false, base: B, unitsPrefix: U })
+    expect(p).toMatchObject({ first: false, problems: ['index.json: HTTP 404'] })
+    expect(p.index).toBeUndefined()
+  })
+
+  it('firstRun does not hide an existing release', async () => {
+    const p = await loadPrevious(fake({ [B + 'index.json']: INDEX, [B + 'state.json']: json({ schema: 1, locales: {} }) }), { firstRun: true, base: B, unitsPrefix: U })
+    expect(p).toMatchObject({ first: false, problems: [] })
+  })
+
   it('empty state is not a problem', async () => {
-    const p = await loadPrevious(fake({ [B + 'index.json']: INDEX, [B + 'state.json']: json({ schema: 1, locales: {} }) }), B, U)
+    const p = await loadPrevious(fake({ [B + 'index.json']: INDEX, [B + 'state.json']: json({ schema: 1, locales: {} }) }), { firstRun: false, base: B, unitsPrefix: U })
     expect(p).toMatchObject({ first: false, problems: [] })
   })
 
   it('reports a missing state.json', async () => {
-    const p = await loadPrevious(fake({ [B + 'index.json']: INDEX }), B, U)
+    const p = await loadPrevious(fake({ [B + 'index.json']: INDEX }), { firstRun: false, base: B, unitsPrefix: U })
     expect(p.problems).toEqual(['state.json: HTTP 404'])
   })
 
@@ -48,7 +59,7 @@ describe('loadPrevious', () => {
       [B + 'state.json']: json(state),
       [U + 'tr']: good,
       [U + 'el']: good,
-    }), B, U)
+    }), { firstRun: false, base: B, unitsPrefix: U })
     expect(p.units.get('tr_TR')?.get('wp/dev')?.units).toEqual([{ source: 's', context: '', target: 't' }])
     expect(p.state.locales.el).toBeUndefined()
     expect(p.problems).toEqual(['el: units file sha512 mismatch'])
@@ -58,7 +69,7 @@ describe('loadPrevious', () => {
     const p = await loadPrevious(fake({
       [B + 'index.json']: INDEX,
       [B + 'state.json']: json({ schema: 1 }),
-    }), B, U)
+    }), { firstRun: false, base: B, unitsPrefix: U })
     expect(p).toMatchObject({ first: false, problems: ['state.json: not a state file of schema 1'] })
   })
 
@@ -67,7 +78,7 @@ describe('loadPrevious', () => {
       const seen: string[] = []
       const base = fake({ [B + 'index.json']: json(bad), [B + 'state.json']: json({ schema: 1, locales: {} }) })
       const client: HttpClient = { get: (u) => { seen.push(u); return base.get(u) } }
-      const p = await loadPrevious(client, B, U)
+      const p = await loadPrevious(client, { firstRun: false, base: B, unitsPrefix: U })
       expect(p).toMatchObject({ first: false, problems: ['index.json: not a manifest of schema 1'] })
       expect(p.index).toBeUndefined()
       expect(seen).toEqual([B + 'index.json'])
@@ -78,7 +89,7 @@ describe('loadPrevious', () => {
     const p = await loadPrevious(fake({
       [B + 'index.json']: INDEX,
       [B + 'state.json']: json({ schema: 1, locales: { a: null, b: { sha512: 'x', projects: {} } } }),
-    }), B, U)
+    }), { firstRun: false, base: B, unitsPrefix: U })
     expect(p.problems).toEqual(['a: state entry malformed', 'b: state entry malformed'])
     expect(p.state.locales).toEqual({})
   })
@@ -97,7 +108,7 @@ describe('loadPrevious', () => {
       }),
       [U + 'tr']: badUnit,
       [U + 'el']: nullProjects,
-    }), B, U)
+    }), { firstRun: false, base: B, unitsPrefix: U })
     expect(p.problems).toEqual([
       'tr_TR: units file: wp/dev has a malformed unit',
       'el: not a units file of schema 1',
@@ -112,7 +123,7 @@ describe('loadPrevious', () => {
     })
     const seen: string[] = []
     const client: HttpClient = { get: (u) => { seen.push(u); return base.get(u) } }
-    const p = await loadPrevious(client, B, U)
+    const p = await loadPrevious(client, { firstRun: false, base: B, unitsPrefix: U })
     expect(seen).toEqual([B + 'index.json', B + 'state.json'])
     expect(p.problems).toEqual(['tr_TR: units URL outside the release'])
   })

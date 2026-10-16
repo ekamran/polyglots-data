@@ -196,6 +196,13 @@ describe('publish rules', () => {
     expect(b.publish).toBe(false)
   })
 
+  it('a 404 on index.json outside the first run blocks the publish', async () => {
+    const lost: Previous = { first: false, state: { schema: 1, locales: {} }, units: new Map(), problems: ['index.json: HTTP 404'] }
+    const r = await runBuild(input({ repo: repo([]), previous: lost }), client(files()))
+    expect(r.publish).toBe(false)
+    expect(r.red).toContain('previous release: index.json: HTTP 404')
+  })
+
   it('publishes a damaged previous only after a forced full rebuild', async () => {
     const r1 = await runBuild(input({ repo: repo([]) }), client(files()))
     const damaged = { ...previousFrom(r1), index: undefined, problems: ['index.json: HTTP 502'] }
