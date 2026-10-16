@@ -51,9 +51,9 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          # Only a repository with no release at all is a first run; a 404 on index.json otherwise is a damaged release.
+          # Only a repository with no published release (drafts and pre-releases do not count) is a first run; a 404 on index.json otherwise is a damaged release.
           # The assignment makes a failed gh call fail the step (bash -e) instead of reading as "no release".
-          LATEST_TAG=$(gh release list --limit 1 --json tagName --jq '.[].tagName')
+          LATEST_TAG=$(gh release list --exclude-drafts --exclude-pre-releases --limit 1 --json tagName --jq '.[].tagName')
           if [ -z "$LATEST_TAG" ]; then echo FIRST=--first-run >> "$GITHUB_ENV"; fi
       - name: Build
         env:
