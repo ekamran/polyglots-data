@@ -15,8 +15,8 @@ async function pages<T>(url: string, token: string): Promise<T[]> {
 }
 
 export async function listReviews(repo: string, pr: number, token: string): Promise<Review[]> {
-  const raw = await pages<{ user: { login: string } | null; state: string; submitted_at: string }>(`${API}/repos/${repo}/pulls/${pr}/reviews`, token)
-  return raw.filter((r) => r.user).map((r) => ({ login: r.user!.login, state: r.state, submittedAt: r.submitted_at }))
+  const raw = await pages<{ user: { login: string } | null; state: string; submitted_at: string; commit_id?: string }>(`${API}/repos/${repo}/pulls/${pr}/reviews`, token)
+  return raw.filter((r) => r.user).map((r) => ({ login: r.user!.login, state: r.state, submittedAt: r.submitted_at, commitId: r.commit_id }))
 }
 
 export async function listPrFiles(repo: string, pr: number, token: string): Promise<string[]> {
@@ -24,7 +24,7 @@ export async function listPrFiles(repo: string, pr: number, token: string): Prom
 }
 
 export async function getFileAtRef(repo: string, path: string, ref: string, token: string): Promise<string | undefined> {
-  const res = await fetch(`${API}/repos/${repo}/contents/${path}?ref=${ref}`, { headers: { ...headers(token), Accept: 'application/vnd.github.raw+json' } })
+  const res = await fetch(`${API}/repos/${repo}/contents/${path.split('/').map(encodeURIComponent).join('/')}?ref=${encodeURIComponent(ref)}`, { headers: { ...headers(token), Accept: 'application/vnd.github.raw+json' } })
   if (res.status === 404) return undefined
   if (!res.ok) throw new Error(`${path}@${ref}: HTTP ${res.status}`)
   return res.text()

@@ -15,3 +15,11 @@ it('reports an approval', () => {
 it('ignores comments', () => {
   expect(approvalLines([{ login: 'emreerkan', state: 'APPROVED', submittedAt: '1' }, { login: 'emreerkan', state: 'COMMENTED', submittedAt: '2' }], m, 'tr_TR')[0]).toMatch(/^Approved/)
 })
+it('does not count an approval on an earlier commit', () => {
+  const r = approvalLines([{ login: 'emreerkan', state: 'APPROVED', submittedAt: '1', commitId: 'old' }], m, 'tr_TR', 'new')
+  expect(r[0]).toBe('Approved by emre (@emreerkan) on an earlier commit; not counted.')
+  expect(r[1]).toBe('No approval from a tr_TR maintainer.')
+})
+it('counts an approval on the head commit', () => {
+  expect(approvalLines([{ login: 'emreerkan', state: 'APPROVED', submittedAt: '1', commitId: 'new' }], m, 'tr_TR', 'new')[0]).toBe('Approved by emre (@emreerkan, tr_TR maintainer).')
+})
