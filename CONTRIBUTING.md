@@ -27,7 +27,9 @@ what, who approves it, and what CI checks.
 2. CI checks it (see [What CI checks](#what-ci-checks)) and reports whether a
    locale maintainer of that locale approved it.
 3. A locale maintainer of that locale reviews it and approves or asks for
-   changes.
+   changes. A locale maintainer without a GitHub account says so to the
+   repository maintainer on WordPress.org Slack instead, and the repository
+   maintainer notes it in the pull request.
 4. The repository maintainer merges it.
 
 If a locale has no locale maintainers yet, the repository maintainer reviews
@@ -52,10 +54,15 @@ request that adds you to `locales/<locale>/locale.yaml`:
 ```yaml
 locale: es_ES
 maintainers:
-  - github: your-github-name
-    wporg: your-wporg-username
+  - wporg: your-wporg-username
+    github: your-github-name   # optional
     role: General Translation Editor
 ```
+
+`wporg` is required; `github` is optional, since not every GTE has a GitHub
+account. polyglots shows the WordPress.org usernames to its users. Without a
+GitHub account, ask the repository maintainer on WordPress.org Slack to add
+you.
 
 The repository maintainer checks your role on your WordPress.org profile or the
 locale's team page before merging. A locale maintainer who is no longer an LM or
