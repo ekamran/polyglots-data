@@ -1,0 +1,26 @@
+import { describe, expect, it } from 'vitest'
+import { adversarialStrings } from '../src/rules/adversarial.js'
+import { timeRegexes } from '../src/rules/regex-timing.js'
+
+describe('adversarialStrings', () => {
+  it('builds long runs from the characters a pattern uses', () => {
+    const s = adversarialStrings('[Yy]ada\\s+\\p{L}')
+    expect(s.some((x) => x.length >= 10_000 && /^Y+/.test(x))).toBe(true)
+    expect(s.some((x) => /^ +/.test(x) && x.length >= 10_000)).toBe(true)
+    expect(s.every((x) => x.length <= 10_001)).toBe(true)
+  })
+})
+
+describe('timeRegexes', () => {
+  it('passes a fast regex', async () => {
+    expect(await timeRegexes([{ where: 'a', source: '\\d+' }], ['123', 'abc'.repeat(3000)], 'r.yaml')).toEqual([])
+  })
+  it('kills and reports a catastrophic regex', async () => {
+    const f = await timeRegexes([{ where: 'bad', source: '^(a+)+$' }], ['a'.repeat(40) + '!'], 'r.yaml', { hardMs: 1000, adversarial: false })
+    expect(f).toEqual([{ level: 'error', check: 'regex-time', file: 'r.yaml', message: 'bad: did not finish within 1000 ms' }])
+  })
+  it('reports a regex over the budget', async () => {
+    const f = await timeRegexes([{ where: 'slow', source: '(?:a|a)*b' }], ['a'.repeat(18)], 'r.yaml', { budgetMs: 0.001, hardMs: 5000, adversarial: false })
+    expect(f[0]?.message).toMatch(/^slow: \d+(\.\d+)? ms on a string of 18 characters/)
+  })
+})
