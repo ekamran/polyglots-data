@@ -1,0 +1,7 @@
+locale: tr_TR
+maintainers:
+  - github: emreerkan
+    wporg: emreerkan
+    role: Locale Manager
+rules:
+  status: maintained

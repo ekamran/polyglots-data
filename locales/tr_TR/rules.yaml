@@ -1,9 +1,9 @@
 # polyglots rules for tr_TR (tr)
 #
 # Sources:
-#   - The polyglots tr pack (rules, proper nouns, the two grammar patterns).
-#     Its capitalization guidance stays in force, including the exception for
-#     menu labels, screen and section names and headings (TDK madde D).
+#   - The polyglots tr pack (rules, proper nouns, the two grammar patterns,
+#     and the capitalization guidance with the exception for menu labels,
+#     screen and section names and headings, TDK madde D).
 #   - The tr_TR general translation guide by a tr_TR GTE (sections cited as §).
 #   - The tr_TR glossary on translate.wordpress.org.
 #
@@ -13,7 +13,9 @@
 # that the rule is wrong; the guide and TDK decide.
 #
 # Any change re-reviews files of this locale from scratch on their next run.
-# Check the file with: polyglots rules check tr
+# Check the file with: polyglots rules check --file locales/tr_TR/rules.yaml
+
+schema: 2
 
 rules:
   enable: [title-case, apostrophe, ampersand, number-format]
@@ -175,8 +177,8 @@ patterns:
     note: One space between words, unless the source has two in the same place
 
 # §2, §2b, §3, §5, §6, §7, §9, §10. What a pattern cannot check. At most 1500
-# characters. Capitalization is not repeated here: the pack's guidance covers
-# it, with the exception for menu labels and headings.
+# characters. Capitalization is not repeated here: the capitalization section
+# below covers it, with the exception for menu labels and headings.
 guidance: |
   Never attach a suffix to a placeholder: write "%s silinsin mi?", "Düzenle: %s", not "%s'yi sil". If a suffix is unavoidable, quote the value. Reorder with %1$s/%2$s freely.
   Keep tags and structural attributes (href, src, class, id, target, rel) as they are; translate visible ones (title, alt, aria-label, placeholder) and never delete them. Tags and placeholders may move to fit Turkish word order.
@@ -187,3 +189,11 @@ guidance: |
   Keep the source's final punctuation. Buttons are imperative without a full stop; confirmations are questions with a separate mi; info messages are full sentences.
   Address the user as siz, but do not add a subject the source does not need.
   Keep line breaks, empty lines and HTML structure of long texts; translate sentence by sentence.
+
+# Added to the review prompt when title-case runs. From the polyglots tr pack,
+# word for word. {language} is replaced with the language name.
+capitalization: |
+  - {language} does NOT use English Title Case. Only the first word and proper nouns are capitalized. "Tüm Değişiklikleri Kaydet" is wrong; "Tüm değişiklikleri kaydet" is right. Brand names (WordPress, WooCommerce) and acronyms keep their own casing.
+  - A capital mid-string is legitimate when the word is a proper noun. In {language} that includes place and person names, names of languages and peoples, day and month names inside a specific date, titles of works, and institution names, where every word is capitalized (Türk Dil Kurumu). An automated check cannot recognize most of these, so when a title-case finding is really one of them, clear it.
+  - Menu labels, screen and section names, and section headings in help or documentation pages are a deliberate exception. TDK madde D capitalizes the words of sign-like labels, and the locale team does not reject a submission over capitalization in those places, so do NOT report title-case for them. This exception covers labels and headings only. Commands, buttons, confirmations, error messages and running prose keep sentence case, and an English calque there is still a problem worth reporting.
+  - The two kinds of title-case check are not equal evidence. A finding that says the translation "mirrors the English source" means the source itself was Title Case and the translation copied its shape word for word; that is close to proof of an English calque. A finding that only says a word is capitalized mid-string is much weaker: measured against approved WordPress {language} translations it is roughly four times as likely to be a false alarm, and the usual reason is that the capitalized words name a thing, most often a feature, widget, block or key ("Etiket Bulutu bileşeninde", "Hızlı Düzenleme'de göster", "Site Logosu bloğu", "Shift + Ok tuşları"). Check what the capitalized words refer to before confirming that kind.
