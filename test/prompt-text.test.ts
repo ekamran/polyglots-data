@@ -1,14 +1,15 @@
-import { readFileSync } from 'node:fs'
+import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import YAML from 'yaml'
 import { expect, it } from 'vitest'
 import { extractItems } from '../src/rules/items.js'
 import { promptFindings } from '../src/rules/prompt-text.js'
 
-it('passes the real tr_TR and sv_SE prompt text', () => {
-  for (const l of ['tr_TR', 'sv_SE']) {
-    const doc = YAML.parse(readFileSync(join(import.meta.dirname, '..', 'locales', l, 'rules.yaml'), 'utf8'))
-    expect(promptFindings(extractItems(doc).prompts, l)).toEqual([])
+it('the live prompt text has no error (warnings are allowed)', () => {
+  const locales = join(import.meta.dirname, '..', 'locales')
+  for (const l of readdirSync(locales).filter((x) => existsSync(join(locales, x, 'rules.yaml')))) {
+    const doc = YAML.parse(readFileSync(join(locales, l, 'rules.yaml'), 'utf8'))
+    expect(promptFindings(extractItems(doc).prompts, l).filter((f) => f.level === 'error'), l).toEqual([])
   }
 })
 

@@ -1,17 +1,19 @@
 import { existsSync, readdirSync, readFileSync } from 'node:fs'
-import { join } from 'node:path'
+import { basename, dirname, join } from 'node:path'
 import YAML from 'yaml'
 import type { Finding } from '../findings.js'
 import { adversarialStrings } from './adversarial.js'
 import { loadCorpus } from './corpus.js'
 import { dynamicFixFindings, staticFixFindings } from './fix-safety.js'
 import { extractItems, type RulesItems } from './items.js'
+import { intlTag } from './literal.js'
+import { loadWpLocales, type WpLocales } from '../locales.js'
 import { polyglotsBin, polyglotsFindings, runPolyglotsCheck } from './polyglots.js'
 import { promptFindings } from './prompt-text.js'
 import { recheckFindings, staticRegexFindings } from './regex-safety.js'
 import { timeRegexes } from './regex-timing.js'
 
-export interface RulesContext { corpus: string[]; allowlist: Set<string>; bin: string }
+export interface RulesContext { corpus: string[]; allowlist: Set<string>; bin: string; wp?: WpLocales }
 export interface RulesCheckResult { file: string; findings: Finding[]; items: RulesItems; schema?: number }
 
 export function loadRulesContext(root: string): RulesContext {
@@ -19,7 +21,7 @@ export function loadRulesContext(root: string): RulesContext {
   const extra = join(root, 'test', 'fixtures', 'corpus')
   if (existsSync(extra)) for (const f of readdirSync(extra)) if (f.endsWith('.txt')) files.push(join(extra, f))
   const allowlist = new Set(JSON.parse(readFileSync(join(root, 'data', 'regex-allowlist.json'), 'utf8')) as string[])
-  return { corpus: loadCorpus(files), allowlist, bin: polyglotsBin(root) }
+  return { corpus: loadCorpus(files), allowlist, bin: polyglotsBin(root), wp: loadWpLocales(root) }
 }
 
 /** Spec 7, checks 4 and 5, for one rules file. Used by PR CI and by the build before publishing. */
@@ -33,7 +35,9 @@ export async function checkRulesFile(file: string, ctx: RulesContext): Promise<R
   }
   const pg = await runPolyglotsCheck(file, ctx.bin)
   const findings: Finding[] = polyglotsFindings(pg, file)
-  const items = extractItems(doc)
+  // locales/<code>/rules.yaml: polyglots keys casing by the translate.wordpress.org slug.
+  const code = basename(dirname(file))
+  const items = extractItems(doc, intlTag(ctx.wp?.get(code)?.slug ?? code))
   const staticRegex = staticRegexFindings(items.regexes, file)
   findings.push(...staticRegex)
   const broken = new Set(staticRegex.map((f) => f.message.split(':')[0]))

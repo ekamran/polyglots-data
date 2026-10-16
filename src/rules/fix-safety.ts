@@ -1,6 +1,7 @@
 import { RegExpParser, visitRegExpAST, type AST } from '@eslint-community/regexpp'
 import type { Finding } from '../findings.js'
 import type { FixItem } from './items.js'
+import { capitaliseLike, literalSource } from './literal.js'
 import { URL_TOKEN } from './url-tokens.js'
 
 export const MAX_REPLACE = 200
@@ -69,7 +70,7 @@ export function staticFixFindings(fixes: FixItem[], file: string): Finding[] {
   for (const f of fixes) {
     if (f.replace.length > MAX_REPLACE) { err(f.where, `the replacement is ${f.replace.length} characters, the limit is ${MAX_REPLACE}`); continue }
     if (/\$[&`']/.test(f.replace)) { err(f.where, '$&, $` and $\' are not allowed in a replacement'); continue }
-    // A text fix uses split and join, so its replacement has no capture references.
+    // A text fix replaces through a function (capitaliseLike), so its replacement has no capture references.
     const { literal, refs } = f.find ? parseReplace(f.replace) : { literal: f.replace, refs: [] as RegExpMatchArray[] }
     if (countUnsafe(literal) > 0) { err(f.where, `the replacement ${ADDS}`); continue }
     if (refs.length > 0 && /[./:]/.test(literal)) {
@@ -88,10 +89,18 @@ export function staticFixFindings(fixes: FixItem[], file: string): Finding[] {
   return out
 }
 
+/**
+ * A fix as polyglots applies it (app/src/rules/custom.ts applyFixPatterns): a
+ * find runs with its own flags on the text as typed; a text becomes the
+ * locale-cased, encoding-blind literal regex and keeps the capital of what it
+ * replaced. A result that would leave the text blank is not applied.
+ */
 export function applyFix(fix: FixItem, text: string): string {
-  if (fix.find) return text.replace(new RegExp(fix.find, 'gu'), fix.replace)
-  if (fix.text) return text.split(fix.text).join(fix.replace)
-  return text
+  if (text.trim() === '') return text
+  let next = text
+  if (fix.find !== undefined) next = text.replace(new RegExp(fix.find, fix.flags), fix.replace)
+  else if (fix.text !== undefined) next = text.replace(new RegExp(literalSource(fix.text, fix.tag), 'gu'), (m) => capitaliseLike(m, fix.replace, fix.tag))
+  return next.trim() === '' ? text : next
 }
 
 function errorMessage(e: unknown): string {

@@ -13,9 +13,9 @@ export function staticRegexFindings(items: RegexItem[], file: string): Finding[]
       continue
     }
     try {
-      new RegExp(r.source, 'u')
+      new RegExp(r.source, r.flags)
     } catch (err) {
-      out.push({ level: 'error', check: 'regex', file, message: `${r.where}: does not compile with the u flag (${err instanceof Error ? err.message : String(err)})` })
+      out.push({ level: 'error', check: 'regex', file, message: `${r.where}: does not compile with the ${r.flags} flags (${err instanceof Error ? err.message : String(err)})` })
     }
   }
   return out
@@ -27,7 +27,7 @@ const defaultChecker: Checker = (source, flags) => check(source, flags, { timeou
 export async function recheckFindings(items: RegexItem[], allowlist: Set<string>, file: string, checker: Checker = defaultChecker): Promise<Finding[]> {
   const out: Finding[] = []
   for (const r of items) {
-    const { status } = await checker(r.source, 'gu')
+    const { status } = await checker(r.source, r.flags)
     if (status === 'safe') continue
     if (status === 'unknown' && allowlist.has(r.source)) continue
     const tail = status === 'unknown' ? ' (not in data/regex-allowlist.json)' : ''

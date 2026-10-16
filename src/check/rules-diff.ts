@@ -5,8 +5,8 @@ export interface ItemChange { kind: 'regex' | 'fix' | 'prompt' | 'when'; where: 
 function flat(items: RulesItems | undefined): Array<Omit<ItemChange, 'change'>> {
   if (!items) return []
   return [
-    ...items.regexes.map((r) => ({ kind: 'regex' as const, where: r.where, text: r.source })),
-    ...items.fixes.map((f) => ({ kind: 'fix' as const, where: f.where, text: `${f.find ?? f.text ?? ''} → ${f.replace}` })),
+    ...items.regexes.filter((r) => !r.derived).map((r) => ({ kind: 'regex' as const, where: r.where, text: `/${r.source}/${r.flags}` })),
+    ...items.fixes.map((f) => ({ kind: 'fix' as const, where: f.where, text: `${f.find !== undefined ? `/${f.find}/${f.flags}` : f.text ?? ''} → ${f.replace}` })),
     ...items.prompts.map((p) => ({ kind: 'prompt' as const, where: p.where, text: p.text })),
     ...items.whens.map((w) => ({ kind: 'when' as const, where: w.where, text: [w.source !== undefined ? `source: ${w.source}` : '', w.notSource !== undefined ? `notSource: ${w.notSource}` : ''].filter(Boolean).join(', ') })),
   ]

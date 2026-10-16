@@ -10,9 +10,9 @@ const WORKER = new URL('./regex-worker.mjs', import.meta.url)
 type Outcome = { ms: number; length: number } | { timeout: true; length?: number } | Error
 
 /** The hard limit applies to each string: the timer restarts on every progress message from the worker. */
-function runOne(source: string, strings: string[], hardMs: number): Promise<Outcome> {
+function runOne(source: string, flags: string, strings: string[], hardMs: number): Promise<Outcome> {
   return new Promise((resolve) => {
-    const w = new Worker(WORKER, { workerData: { source, strings } })
+    const w = new Worker(WORKER, { workerData: { source, flags, strings } })
     let settled = false
     let length: number | undefined
     let timer: NodeJS.Timeout
@@ -44,7 +44,7 @@ export async function timeRegexes(items: RegexItem[], corpus: string[], file: st
   const out: Finding[] = []
   for (const r of items) {
     const strings = o.adversarial === false ? corpus : [...corpus, ...adversarialStrings(r.source)]
-    const res = await runOne(r.source, strings, hard)
+    const res = await runOne(r.source, r.flags, strings, hard)
     if ('timeout' in res) out.push({ level: 'error', check: 'regex-time', file, message: `${r.where}: did not finish within ${hard} ms${res.length === undefined ? '' : ` on a string of ${res.length} characters`}` })
     else if (res instanceof Error) out.push({ level: 'error', check: 'regex-time', file, message: `${r.where}: ${res.message}` })
     else if (res.ms > budget) out.push({ level: 'error', check: 'regex-time', file, message: `${r.where}: ${res.ms.toFixed(1)} ms on a string of ${res.length} characters, the budget is ${budget} ms` })
