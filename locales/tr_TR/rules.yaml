@@ -190,6 +190,12 @@ guidance: |
   Address the user as siz, but do not add a subject the source does not need.
   Keep line breaks, empty lines and HTML structure of long texts; translate sentence by sentence.
 
+# Turkish WordPress addresses the reader as "siz". These are the lines
+# polyglots used for every locale without a register of its own.
+register:
+  audit: '- Use the formal, neutral register standard in WordPress {language}. No slang, no over-familiar address.'
+  translate: '- Use the formal/neutral register that is standard in WordPress {language}.'
+
 # Added to the review prompt when title-case runs. From the polyglots tr pack,
 # word for word. {language} is replaced with the language name.
 capitalization: |
