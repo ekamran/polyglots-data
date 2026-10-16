@@ -84,7 +84,9 @@ async function buildLocale(c: Ctx, l: LocaleData, loc: WpLocale): Promise<{ entr
     const set = sets ? findSet(sets, loc) : undefined
     if (cached && lastUnits && sets && set && !needsDownload(cached, set, nowMs, input.force)) {
       kept.push({ path, units: lastUnits.units, built: lastUnits.built })
-      projectsState[path] = cached
+      // The API is back at the last good values: the cached units are current, so the project is no longer stale.
+      const { staleSince: _staleSince, ...current } = cached
+      projectsState[path] = current
       c.log.push({ locale: l.code, path, action: 'cached', units: lastUnits.units.length })
       continue
     }
@@ -106,9 +108,11 @@ async function buildLocale(c: Ctx, l: LocaleData, loc: WpLocale): Promise<{ entr
       c.log.push({ locale: l.code, path, action: 'downloaded', units: o.units.length })
     } else if (o.kind === 'stale') {
       kept.push({ path, units: o.last.units, built: o.last.built, stale: o.last.built })
-      projectsState[path] = cached!
+      // The alarm clock starts at the first failure, not at the last good build: old content that fails once is not red.
+      const staleSince = cached!.staleSince ?? nowIso
+      projectsState[path] = { ...cached!, staleSince }
       c.log.push({ locale: l.code, path, action: 'stale', units: o.last.units.length, note: o.reason })
-      if (nowMs - Date.parse(o.last.built) > STALE_RED_DAYS * DAY) c.red.push(`${l.code} ${path}: stale since ${o.last.built} (${o.reason})`)
+      if (nowMs - Date.parse(staleSince) > STALE_RED_DAYS * DAY) c.red.push(`${l.code} ${path}: stale since ${staleSince} (${o.reason}); last good ${o.last.built}`)
     } else {
       c.log.push({ locale: l.code, path, action: 'missing', units: 0, note: o.reason })
       c.red.push(`${l.code} ${path}: left out (${o.reason})`)
@@ -116,6 +120,11 @@ async function buildLocale(c: Ctx, l: LocaleData, loc: WpLocale): Promise<{ entr
   }
 
   if (kept.length === 0) {
+    // A forced recovery with no cache must never drop a good TM that the previous release still serves.
+    if (prevEntry) {
+      c.red.push(`${l.code}: no project could be built; the previous TM stays`)
+      return { entry: prevEntry, state: prevState }
+    }
     c.red.push(`${l.code}: no project left`)
     return {}
   }
@@ -154,7 +163,13 @@ function rulesEntries(c: Ctx): RulesEntry[] {
   const out: RulesEntry[] = []
   for (const [code, r] of [...input.rules].sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0))) {
     const error = r.check.findings.find((f) => f.level === 'error')
-    if (error) { c.red.push(`${code} rules: ${error.message}`); continue }
+    if (error) {
+      // The previous entry still points at the older asset in its own release; keep serving it.
+      const prev = input.previous.index?.rules.find((e) => e.locale === code)
+      if (prev) out.push(prev)
+      c.red.push(`${code} rules: ${error.message}`)
+      continue
+    }
     const meta = input.repo.locales.get(code)?.meta
     const loc = input.wp.get(code)
     if (!meta || !loc) { c.red.push(`${code} rules: locale.yaml or the locale mapping is missing`); continue }

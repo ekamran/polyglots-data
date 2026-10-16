@@ -90,13 +90,60 @@ describe('runBuild', () => {
     expect(r2.red).toEqual([])
   })
 
-  it('turns red when a project is stale for more than 28 days', async () => {
+  it('turns red when a project is stale for more than 28 days after its first failure', async () => {
     const files: Record<string, Buffer | number> = { [apiUrl('wp/dev')]: api(60), [exportUrl('wp/dev', TR)]: po(units(60)) }
     const r1 = await runBuild(input({ repo: repo([]) }), client(files))
     files[apiUrl('wp/dev')] = api(61, '2026-11-20 00:00:00')
     files[exportUrl('wp/dev', TR)] = 503
+    // First failure 35 days after the last good build: the clock starts now, so this is not red.
     const r2 = await runBuild(input({ repo: repo([]), previous: previousFrom(r1), now: new Date('2026-11-20T03:00:00Z') }), client(files))
-    expect(r2.red).toEqual([expect.stringMatching(/^tr_TR wp\/dev: stale since 2026-10-16T03:00:00.000Z/)])
+    expect(r2.red).toEqual([])
+    expect(r2.state.locales['tr_TR']!.projects['wp/dev']!.staleSince).toBe('2026-11-20T03:00:00.000Z')
+    expect(r2.manifest.tm[0]!.projects[0]!.stale).toBe(now.toISOString())
+    const p2 = { ...previousFrom(r2), units: previousFrom(r1).units }
+    const r3 = await runBuild(input({ repo: repo([]), previous: p2, now: new Date('2026-12-18T03:00:00Z') }), client(files))
+    expect(r3.red).toEqual([])
+    expect(r3.state.locales['tr_TR']!.projects['wp/dev']!.staleSince).toBe('2026-11-20T03:00:00.000Z')
+    const r4 = await runBuild(input({ repo: repo([]), previous: p2, now: new Date('2026-12-20T03:00:00Z') }), client(files))
+    expect(r4.red).toEqual([expect.stringMatching(/^tr_TR wp\/dev: stale since 2026-11-20T03:00:00.000Z .*last good 2026-10-16T03:00:00.000Z$/)])
+    expect(r4.manifest.tm[0]!.projects[0]!.stale).toBe(now.toISOString())
+  })
+
+  it('one failure on old content is not red', async () => {
+    const files: Record<string, Buffer | number> = { [apiUrl('wp/dev')]: api(60), [exportUrl('wp/dev', TR)]: po(units(60)) }
+    const r1 = await runBuild(input({ repo: repo([]) }), client(files))
+    files[apiUrl('wp/dev')] = api(61, '2027-06-01 00:00:00')
+    files[exportUrl('wp/dev', TR)] = 503
+    const r2 = await runBuild(input({ repo: repo([]), previous: previousFrom(r1), now: new Date('2027-06-01T03:00:00Z') }), client(files))
+    expect(r2.log.map((x) => x.action)).toEqual(['stale'])
+    expect(r2.red).toEqual([])
+  })
+
+  it('drops staleSince on a fresh result', async () => {
+    const files: Record<string, Buffer | number> = { [apiUrl('wp/dev')]: api(60), [exportUrl('wp/dev', TR)]: po(units(60)) }
+    const r1 = await runBuild(input({ repo: repo([]) }), client(files))
+    files[apiUrl('wp/dev')] = api(61, '2026-10-20 00:00:00')
+    files[exportUrl('wp/dev', TR)] = 503
+    const r2 = await runBuild(input({ repo: repo([]), previous: previousFrom(r1), now: new Date('2026-10-23T03:00:00Z') }), client(files))
+    expect(r2.state.locales['tr_TR']!.projects['wp/dev']!.staleSince).toBeDefined()
+    files[exportUrl('wp/dev', TR)] = po(units(61))
+    const r3 = await runBuild(input({ repo: repo([]), previous: { ...previousFrom(r2), units: previousFrom(r1).units }, now: new Date('2026-10-24T03:00:00Z') }), client(files))
+    expect(r3.log.map((x) => x.action)).toEqual(['downloaded'])
+    expect(r3.state.locales['tr_TR']!.projects['wp/dev']!.staleSince).toBeUndefined()
+    expect(r3.manifest.tm[0]!.projects[0]!.stale).toBeUndefined()
+  })
+
+  it('a forced recovery that builds no project keeps the previous TM', async () => {
+    const files: Record<string, Buffer | number> = { [apiUrl('wp/dev')]: api(2), [exportUrl('wp/dev', TR)]: po([['A', 'B'], ['C', 'D']]) }
+    const r1 = await runBuild(input({ repo: repo([]) }), client(files))
+    files[exportUrl('wp/dev', TR)] = 503
+    const damaged: Previous = { ...previousFrom(r1), units: new Map(), problems: ['tr_TR: units file HTTP 502'] }
+    const r2 = await runBuild(input({ repo: repo([]), previous: damaged, force: true, tag: 'data-20261023-030000', now: new Date('2026-10-23T03:00:00Z') }), client(files))
+    expect(r2.manifest.tm).toEqual(r1.manifest.tm)
+    expect(r2.state.locales['tr_TR']).toEqual(r1.state.locales['tr_TR'])
+    expect(r2.red).toContain('tr_TR: no project could be built; the previous TM stays')
+    expect(r2.assets.has('tr_TR.tmx.gz')).toBe(false)
+    expect(selfCheck(r2.assets, r2.manifest, r2.state, 'data-20261023-030000')).toEqual([])
   })
 
   it('drops a locale without tm.yaml', async () => {
@@ -123,9 +170,16 @@ describe('runBuild', () => {
     const files = { [apiUrl('wp/dev')]: api(1), [exportUrl('wp/dev', TR)]: po([['A', 'B']]) }
     const r1 = await runBuild(input({ repo: repo([]), rules: new Map([['tr_TR', { bytes, check: good }]]) }), client(files))
     expect(r1.manifest.rules).toEqual([{ locale: 'tr_TR', slug: 'tr', url: 'https://github.com/emreerkan/polyglots-data/releases/download/data-20261016-030000/tr_TR.rules.yaml', sha512: sha512(bytes), schema: 2, minPolyglots: '1.0.0', status: 'maintained', maintainers: ['emre'] }])
+    // No previous entry: the locale is left out.
     const r2 = await runBuild(input({ repo: repo([]), rules: new Map([['tr_TR', { bytes, check: bad }]]) }), client(files))
     expect(r2.manifest.rules).toEqual([])
     expect(r2.red).toEqual(['tr_TR rules: patterns[0].find: ReDoS check says vulnerable'])
+    // A previous entry exists: it stays, pointing at the older asset, and no new asset is written.
+    const r3 = await runBuild(input({ repo: repo([]), previous: previousFrom(r1), tag: 'data-20261023-030000', now: new Date('2026-10-23T03:00:00Z'), rules: new Map([['tr_TR', { bytes: Buffer.from('schema: 2\n# new\n'), check: bad }]]) }), client(files))
+    expect(r3.manifest.rules).toEqual(r1.manifest.rules)
+    expect(r3.assets.has('tr_TR.rules.yaml')).toBe(false)
+    expect(r3.red).toEqual(['tr_TR rules: patterns[0].find: ReDoS check says vulnerable'])
+    expect(selfCheck(r3.assets, r3.manifest, r3.state, 'data-20261023-030000')).toEqual([])
   })
 })
 

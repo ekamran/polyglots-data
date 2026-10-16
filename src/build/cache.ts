@@ -1,6 +1,7 @@
 import type { SetInfo } from '../wporg/api.js'
 
-export interface CachedProject { units: number; built: string; lastModified: string; currentCount: number }
+/** staleSince: when the project first went stale (its first failed or refused download); dropped on a fresh result. */
+export interface CachedProject { units: number; built: string; lastModified: string; currentCount: number; staleSince?: string }
 
 export const REFRESH_DAYS = 90
 const DAY = 86_400_000
