@@ -15,6 +15,7 @@
 
 schema: 2
 
+# The base letter is matched as a non-mark Thai character, so a long run of combining marks cannot make the expression backtrack (recheck: safe).
 sentenceEnd:
   unmarked: true
-  notEnding: '\p{Script=Thai}\p{M}*\.\s*$'
+  notEnding: '(?:(?!\p{M})\p{Script=Thai})\p{M}*\.\s*$'
