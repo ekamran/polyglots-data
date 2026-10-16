@@ -196,6 +196,9 @@ register:
   audit: '- Use the formal, neutral register standard in WordPress {language}. No slang, no over-familiar address.'
   translate: '- Use the formal/neutral register that is standard in WordPress {language}.'
 
+# Drafts address the reader as "siz" (DeepL formality and the draft prompt).
+formality: formal
+
 # Added to the review prompt when title-case runs. From the polyglots tr pack,
 # word for word. {language} is replaced with the language name.
 capitalization: |
