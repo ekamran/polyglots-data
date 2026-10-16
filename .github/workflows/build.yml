@@ -1,0 +1,77 @@
+name: Build
+
+on:
+  # schedule:
+  #   - cron: '17 3 * * 1'   # weekly, Monday 03:17 UTC; enabled after the first approved full build
+  push:
+    branches: [main]
+    paths: ['core/**', 'locales/**', 'data/**', 'src/**', 'package.json', 'package-lock.json']
+  workflow_dispatch:
+    inputs:
+      locales:
+        description: 'Comma list of WP locales (empty = all)'
+        required: false
+        default: ''
+      force:
+        description: 'Ignore the cache and download every export of these locales'
+        type: boolean
+        default: false
+      accept:
+        description: 'Comma list of locale:path whose shrink is accepted'
+        required: false
+        default: ''
+
+permissions:
+  contents: read
+
+concurrency:
+  group: build
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 340
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - name: Build
+        env:
+          EVENT: ${{ github.event_name }}
+          BEFORE: ${{ github.event.before }}
+          LOCALES: ${{ inputs.locales }}
+          FORCE: ${{ inputs.force }}
+          ACCEPT: ${{ inputs.accept }}
+        run: |
+          TAG="data-$(date -u +%Y%m%d-%H%M%S)"
+          ARGS=(--tag "$TAG")
+          if [ "$EVENT" = "push" ]; then ARGS+=(--changed-from "$BEFORE"); fi
+          if [ -n "$LOCALES" ]; then ARGS+=(--locale "$LOCALES"); fi
+          if [ "$FORCE" = "true" ]; then ARGS+=(--force); fi
+          if [ -n "$ACCEPT" ]; then ARGS+=(--accept "$ACCEPT"); fi
+          npm run build -- "${ARGS[@]}"
+      - name: Publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TAG=$(jq -r .tag dist/outcome.json)
+          if [ "$(jq -r .publish dist/outcome.json)" = "true" ]; then
+            gh release create "$TAG" --draft --target "$GITHUB_SHA" --title "$TAG" --notes-file dist/report.md dist/release/*
+            gh release edit "$TAG" --draft=false --latest
+          fi
+      - name: Report
+        if: always()
+        run: |
+          if [ -f dist/report.md ]; then cat dist/report.md >> "$GITHUB_STEP_SUMMARY"; fi
+          test -f dist/outcome.json || { echo "dist/outcome.json is missing: the build failed before it wrote an outcome" >&2; exit 1; }
+          jq -e '.red | length == 0' dist/outcome.json
