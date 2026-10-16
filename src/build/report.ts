@@ -1,7 +1,7 @@
 import type { BuildResult } from './run.js'
 
 export function renderReport(r: BuildResult, tag: string): string {
-  const lines = [`# Build ${tag}`, '', r.publish ? 'Published.' : 'Nothing changed; no release.', '']
+  const lines = [`# Build ${tag}`, '', `Tool ${r.toolVersion}`, '', r.publish ? 'Published.' : 'Nothing changed; no release.', '']
   if (r.red.length) lines.push('## Needs attention', '', ...r.red.map((x) => `- ${x}`), '')
   lines.push('## TM', '', '| Locale | Units | Built | Stale projects |', '|---|---:|---|---|')
   for (const e of r.manifest.tm) lines.push(`| ${e.locale} | ${e.units.toLocaleString('en')} | ${e.built} | ${e.projects.filter((p) => p.stale).map((p) => p.path).join(', ') || '–'} |`)

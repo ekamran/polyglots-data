@@ -8,6 +8,9 @@ export function tmxDate(d: Date): string {
   return d.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '')
 }
 
+/** Bumped by hand when the TMX layout changes; a git SHA here would change every file on every commit. */
+export const TMX_FORMAT_VERSION = '1'
+
 /** TMX 1.4b as agreed with polyglots (integration points 4 and 9). */
 export function writeTmx(units: MergedUnit[], o: { lang: string; toolVersion: string; created: Date }): string {
   const parts: string[] = [

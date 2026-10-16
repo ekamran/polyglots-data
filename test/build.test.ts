@@ -129,6 +129,51 @@ describe('runBuild', () => {
   })
 })
 
+describe('publish rules', () => {
+  const files = () => ({ [apiUrl('wp/dev')]: api(2), [exportUrl('wp/dev', TR)]: po([['Post', 'Yazı'], ['Shared', 'Ortak']]) })
+  const later = new Date('2026-10-23T03:00:00Z')
+
+  it('does not publish when the previous release had problems', async () => {
+    const r1 = await runBuild(input({ repo: repo([]) }), client(files()))
+    const a = await runBuild(input({ repo: repo([]), rebuild: [], previous: { ...previousFrom(r1), index: undefined, problems: ['index.json: HTTP 502'] } }), client(files()))
+    expect(a.publish).toBe(false)
+    expect(a.red).toContain('previous release: index.json: HTTP 502')
+    const b = await runBuild(input({ repo: repo([]), previous: { ...previousFrom(r1), problems: ['tr_TR units: bad'] }, now: later }), client(files()))
+    expect(b.publish).toBe(false)
+  })
+
+  it('ignores the tool version in the TMX', async () => {
+    const r1 = await runBuild(input({ repo: repo([]), toolVersion: 'aaa' }), client(files()))
+    const r2 = await runBuild(input({ repo: repo([]), toolVersion: 'bbb', previous: previousFrom(r1), now: later }), client(files()))
+    expect(r2.manifest.tm[0]!.sha512).toBe(r1.manifest.tm[0]!.sha512)
+    expect(r2.publish).toBe(false)
+  })
+
+  it('keeps the TMX when a re-download has identical units', async () => {
+    const r1 = await runBuild(input({ repo: repo([]) }), client(files()))
+    const f = { ...files(), [apiUrl('wp/dev')]: api(2, '2026-10-22 00:00:00') }
+    const r2 = await runBuild(input({ repo: repo([]), previous: previousFrom(r1), now: later }), client(f))
+    expect(r2.downloads).toBe(1)
+    expect(r2.manifest.tm[0]!.sha512).toBe(r1.manifest.tm[0]!.sha512)
+    expect(r2.manifest.tm[0]!.url).toBe(r1.manifest.tm[0]!.url)
+    expect(r2.manifest.tm[0]!.built).toBe(now.toISOString())
+    expect(r2.state.locales['tr_TR']!.projects['wp/dev']!.built).toBe(later.toISOString())
+    expect(r2.publish).toBe(true)
+  })
+
+  it('does not publish for a project that stays stale', async () => {
+    const f: Record<string, Buffer | number> = { [apiUrl('wp/dev')]: api(60), [exportUrl('wp/dev', TR)]: po(units(60)) }
+    const r1 = await runBuild(input({ repo: repo([]) }), client(f))
+    f[apiUrl('wp/dev')] = api(61, '2026-10-20 00:00:00')
+    f[exportUrl('wp/dev', TR)] = 503
+    const r2 = await runBuild(input({ repo: repo([]), previous: previousFrom(r1), now: later }), client(f))
+    expect(r2.publish).toBe(true)
+    const r3 = await runBuild(input({ repo: repo([]), previous: { ...previousFrom(r2), units: previousFrom(r1).units }, now: new Date('2026-10-24T03:00:00Z') }), client(f))
+    expect(r3.downloads).toBe(1)
+    expect(r3.publish).toBe(false)
+  })
+})
+
 /** What loadPrevious would return after r was published. */
 function previousFrom(r: Awaited<ReturnType<typeof runBuild>>): Previous {
   const unitsMap = new Map<string, Map<string, { built: string; units: { source: string; context: string; target: string }[] }>>()

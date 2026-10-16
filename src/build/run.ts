@@ -6,14 +6,14 @@ import { isLongText } from '../paths.js'
 import { poToUnits } from '../po/units.js'
 import { resolveProjects } from '../resolve.js'
 import type { RulesCheckResult } from '../rules/check.js'
-import { writeTmx } from '../tmx/write.js'
+import { TMX_FORMAT_VERSION, writeTmx } from '../tmx/write.js'
 import type { Unit } from '../types.js'
 import { findSet, parseProjectApi, type SetInfo } from '../wporg/api.js'
 import type { HttpClient } from '../wporg/client.js'
 import { apiUrl, exportUrl } from '../wporg/urls.js'
 import { needsDownload, type CachedProject } from './cache.js'
 import { decideProject, type Fresh } from './decide.js'
-import { mergeUnits } from './merge.js'
+import { compareUnits, mergeUnits } from './merge.js'
 import type { Previous } from './previous.js'
 import { encodeUnitsFile, sha512, type State, type UnitsFile } from './state.js'
 
@@ -27,7 +27,7 @@ export interface BuildInput {
   rules: Map<string, { bytes: Buffer; check: RulesCheckResult }>; now: Date
 }
 export interface ProjectLog { locale: string; path: string; action: 'cached' | 'downloaded' | 'stale' | 'missing'; units: number; note?: string }
-export interface BuildResult { assets: Map<string, Buffer>; manifest: Manifest; state: State; log: ProjectLog[]; red: string[]; publish: boolean; downloads: number }
+export interface BuildResult { assets: Map<string, Buffer>; manifest: Manifest; state: State; log: ProjectLog[]; red: string[]; publish: boolean; downloads: number; toolVersion: string }
 
 const byLocale = (a: { locale: string }, b: { locale: string }) => (a.locale < b.locale ? -1 : a.locale > b.locale ? 1 : 0)
 const json = (v: unknown) => Buffer.from(JSON.stringify(v, null, 2) + '\n')
@@ -49,6 +49,21 @@ async function askApi(locales: LocaleData[], core: string[], wporg: HttpClient):
     }
   }
   return api
+}
+
+function sameUnits(a: Unit[], b: Unit[]): boolean {
+  if (a.length !== b.length) return false
+  const x = [...a].sort(compareUnits)
+  const y = [...b].sort(compareUnits)
+  return x.every((u, i) => compareUnits(u, y[i]!) === 0)
+}
+
+/** State with sorted keys, so key order never counts as a change. */
+function stableState(s: State): string {
+  return JSON.stringify(Object.keys(s.locales).sort().map((code) => {
+    const l = s.locales[code]!
+    return [code, l.units, l.sha512, Object.keys(l.projects).sort().map((p) => [p, l.projects[p]])]
+  }))
 }
 
 /** Spec 5.2–5.8 for one rebuilt locale. Returns its manifest and state entries, or undefined. */
@@ -84,7 +99,9 @@ async function buildLocale(c: Ctx, l: LocaleData, loc: WpLocale): Promise<{ entr
     const last = cached && lastUnits ? { ...lastUnits, lastModified: cached.lastModified, currentCount: cached.currentCount } : undefined
     const o = decideProject(fresh, last, input.accept.has(`${l.code}:${path}`))
     if (o.kind === 'fresh') {
-      kept.push({ path, units: o.units, built: nowIso })
+      // Same content as last good: keep its build time so the TMX bytes stay identical.
+      const same = last !== undefined && sameUnits(last.units, o.units)
+      kept.push({ path, units: o.units, built: same ? last.built : nowIso })
       projectsState[path] = { units: o.units.length, built: nowIso, lastModified: set?.lastModified ?? '', currentCount: set?.currentCount ?? -1 }
       c.log.push({ locale: l.code, path, action: 'downloaded', units: o.units.length })
     } else if (o.kind === 'stale') {
@@ -104,7 +121,7 @@ async function buildLocale(c: Ctx, l: LocaleData, loc: WpLocale): Promise<{ entr
   }
   const merged = mergeUnits(kept)
   const created = new Date(Math.max(...kept.map((k) => Date.parse(k.built))))
-  const xml = Buffer.from(writeTmx(merged, { lang: targetLang(l.code, loc), toolVersion: input.toolVersion, created }))
+  const xml = Buffer.from(writeTmx(merged, { lang: targetLang(l.code, loc), toolVersion: TMX_FORMAT_VERSION, created }))
   if (xml.length > MAX_UNCOMPRESSED) {
     c.red.push(`${l.code}: ${xml.length} bytes uncompressed, over the ${MAX_UNCOMPRESSED} limit; the previous TM stays`)
     return { entry: prevEntry, state: prevState }
@@ -177,8 +194,10 @@ export async function runBuild(input: BuildInput, wporg: HttpClient): Promise<Bu
     if (r.state) state.locales[l.code] = r.state
   }
   const manifest: Manifest = { schema: 1, generated: input.now.toISOString(), tm: tm.sort(byLocale), rules: rulesEntries(c).sort(byLocale) }
-  const publish = previous.first || c.downloads > 0 || comparable(manifest) !== comparable(previous.index)
+  // A damaged previous release means non-rebuilt locales lost their entries: build and report, never publish.
+  const damaged = !previous.first && previous.problems.length > 0
+  const publish = previous.first || (!damaged && (comparable(manifest) !== comparable(previous.index) || stableState(state) !== stableState(previous.state)))
   c.assets.set('index.json', json(manifest))
   c.assets.set('state.json', json(state))
-  return { assets: c.assets, manifest, state, log: c.log, red: c.red, publish, downloads: c.downloads }
+  return { assets: c.assets, manifest, state, log: c.log, red: c.red, publish, downloads: c.downloads, toolVersion: input.toolVersion }
 }
