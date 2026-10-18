@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { addedPaths, newPathFindings } from '../src/check/new-paths.js'
+import { addedPaths, newPathFindings, newPathsCap } from '../src/check/new-paths.js'
 import type { HttpClient } from '../src/wporg/client.js'
 import { apiUrl } from '../src/wporg/urls.js'
 
@@ -31,5 +31,18 @@ describe('new paths', () => {
     const paths = Array.from({ length: 21 }, (_, i) => `p/${i}`)
     const r = await newPathFindings(paths, tr, client({}))
     expect(r.findings).toEqual([{ level: 'error', check: 'new-paths', message: '21 new paths; at most 20 per pull request, split it' }])
+  })
+  it('lets the repository maintainer add more than 20 new paths', async () => {
+    const paths = Array.from({ length: 21 }, (_, i) => `wp-plugins/p${i}/dev`)
+    const files = Object.fromEntries(paths.map((p) => [apiUrl(p), sets(100, 100)]))
+    const r = await newPathFindings(paths, tr, client(files), 'emreerkan')
+    expect(r.findings).toEqual([])
+    expect(r.lines).toHaveLength(21)
+  })
+  it('caps everyone but the repository maintainer', () => {
+    expect(newPathsCap(20, 'someone')).toBeUndefined()
+    expect(newPathsCap(21, 'someone')?.message).toBe('21 new paths; at most 20 per pull request, split it')
+    expect(newPathsCap(21, '')).toBeDefined()
+    expect(newPathsCap(200, 'emreerkan')).toBeUndefined()
   })
 })

@@ -5,7 +5,7 @@ import YAML from 'yaml'
 import { approvalLines } from '../check/approval.js'
 import { changedFiles, isFullSha, showFile } from '../check/git.js'
 import { getFileAtRef, listPrFiles, listReviews } from '../check/github.js'
-import { addedPaths, newPathFindings } from '../check/new-paths.js'
+import { addedPaths, newPathFindings, newPathsCap } from '../check/new-paths.js'
 import { diffItems } from '../check/rules-diff.js'
 import { scopeFindings } from '../check/scope.js'
 import { loadRepo, parseLocaleMeta } from '../config/load.js'
@@ -79,7 +79,8 @@ try {
   }
   const client = createClient()
   const np: { findings: Finding[]; lines: string[] } = { findings: [], lines: [] }
-  if (added.length > 20) np.findings.push({ level: 'error', check: 'new-paths', message: `${added.length} new paths; at most 20 per pull request, split it` })
+  const cap = newPathsCap(added.length, author)
+  if (cap) np.findings.push(cap)
   else for (const a of added) { const r = await newPathFindings([a.path], a.locales, client); np.findings.push(...r.findings); np.lines.push(...r.lines) }
   sections.push({ title: 'New projects', findings: np.findings, lines: np.lines.length ? np.lines : added.length ? [] : ['No new project.'] })
 
