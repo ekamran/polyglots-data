@@ -79,8 +79,9 @@ go one at a time, with a pause between them.
 A release is published only when something changed. A failed export or a
 sudden shrink never replaces a project's last good strings: the project keeps
 them and is marked stale. A rules file that fails its checks keeps its
-previous entry. Either problem is listed in the run summary and fails the
-run, so the maintainer sees it.
+previous entry. Problems are listed in the run summary. The run fails, after
+the release is published, when a rules file fails, a project has been stale
+for more than 28 days or was left out, or a locale is over its size limit.
 
 ## Repository layout
 
