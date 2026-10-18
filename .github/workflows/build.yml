@@ -2,7 +2,7 @@ name: Build
 
 on:
   schedule:
-    - cron: '17 3 * * 1'   # weekly, Monday 03:17 UTC
+    - cron: '17 3 1 * *'   # monthly, on the 1st at 03:17 UTC
   # A push that changes a tm.yaml rebuilds that locale; the cache downloads only projects that changed.
   push:
     branches: [main]

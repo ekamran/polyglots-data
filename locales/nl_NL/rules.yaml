@@ -1,0 +1,148 @@
+# polyglots rules for nl_NL (nl)
+#
+# Sources:
+#   - The nl_NL translation prompt by the nl_NL GTE (Peter Smits), section
+#     names cited in brackets, as in [STYLE].
+#   - The nl glossary on translate.wordpress.org (update -> updaten,
+#     updated -> geüpdatet).
+#
+# This file is for the default nl set, which addresses the reader as
+# "je/jouw". The formal set (nl_NL_formal, "u/uw") gets its own file.
+#
+# The prompt's output format, glossary handling and "never change" rules for
+# placeholders, HTML and URLs are not here: polyglots builds its own prompt,
+# and its universal checks cover placeholders, tags and final punctuation.
+#
+# The patterns are not yet measured against an nl translation memory.
+#
+# Any change re-reviews files of this locale from scratch on their next run.
+# Check the file with: polyglots rules check --file locales/nl_NL/rules.yaml
+
+schema: 2
+
+# [PUNCTUATION AND CAPITALIZATION] Sentence case, never title case.
+rules:
+  enable: [title-case]
+  disable: []
+
+glossaryStemRatio: 0.7
+
+# Dutch capitalizes the names of countries, languages and peoples, and the
+# adjectives made from them. Days and months are written in lower case, so
+# dateOnly is empty.
+properNouns:
+  always:
+    - Nederland
+    - Nederlands
+    - Nederlandse
+    - Nederlander
+    - België
+    - Belgisch
+    - Belgische
+    - Vlaams
+    - Vlaamse
+    - Fries
+    - Friese
+    - Europa
+    - Europees
+    - Europese
+    - Engels
+    - Engelse
+    - Duits
+    - Duitse
+    - Frans
+    - Franse
+    - Spaans
+    - Spaanse
+    - Italiaans
+    - Italiaanse
+    - Portugees
+    - Portugese
+    - Russisch
+    - Russische
+    - Pools
+    - Poolse
+    - Grieks
+    - Griekse
+    - Turks
+    - Turkse
+    - Arabisch
+    - Arabische
+    - Chinees
+    - Chinese
+    - Japans
+    - Japanse
+  dateOnly: []
+
+# Literal, case-insensitive, found anywhere in a translation.
+mistakes:
+  - wrong: bijwerken
+    right: updaten
+    note: '[NEVER CHANGE] "Update" is never "bijwerken"; the glossary has updaten.'
+  - wrong: alstublieft
+    right: (leave out)
+    note: '[TONE] The informal set never uses "alstublieft"; "please" is left out.'
+  - wrong: a.u.b.
+    right: (leave out)
+    note: '[TONE] The informal set never uses "a.u.b."; "please" is left out.'
+
+patterns:
+  # [TONE] The default set addresses the reader as je/jouw. A "u" or "uw" as a
+  # word is the formal address. %u (a placeholder) and Ctrl+U are skipped.
+  - find: '(?<![\p{L}\p{M}\p{N}%+\\''’.-])[Uu]w?(?![\p{L}\p{M}\p{N}''’.-])'
+    level: hint
+    note: The informal set addresses the reader as "je/jouw", not "u/uw"
+
+  # [NEVER CHANGE] No hyphen after a brand name in a compound. This overrides
+  # the general Dutch rule for compounds.
+  - find: '(?<![\p{L}\p{M}])(?:WordPress|WooCommerce|Gutenberg|Jetpack|Elementor|BuddyPress|bbPress)-\p{L}'
+    level: hint
+    when: { notSource: '-' }
+    note: No hyphen after a brand name, as in "WordPress site", not "WordPress-site"
+
+  # The glossary writes the past participle of updaten as "geüpdatet".
+  - find: '(?<![\p{L}\p{M}])[Gg]eüpdate(?![t\p{L}\p{M}])'
+    level: hint
+    note: The glossary writes the past participle as "geüpdatet"
+
+  # [PUNCTUATION AND CAPITALIZATION] Percentages take no space. %s, %1$s and
+  # other placeholders after a number are skipped.
+  - find: '(?<![\p{L}\p{N}%$])\d+(?:[.,]\d+)? +%(?![\d$sdfu])'
+    level: hint
+    note: No space before the percent sign, as in "10%"
+
+  # [DATE AND TIME FORMATS] A date or time format is rearranged, not copied.
+  - find: '(?<![A-Za-z\\])g:i'
+    level: hint
+    when: { source: 'g:i' }
+    note: Use 24-hour time in a time format, as "G:i" for "g:i a"
+  - text: 'F j, Y'
+    level: hint
+    when: { source: 'F j, Y' }
+    note: Use the Dutch date order, as "j F Y" for "F j, Y"
+
+# [STYLE], [NEVER CHANGE], [PUNCTUATION AND CAPITALIZATION], [DATE AND TIME
+# FORMATS]. What a pattern cannot check. At most 1500 characters.
+guidance: |
+  Buttons, menu items and short action labels use the infinitive ("Opslaan", "Selecteren"), never the imperative ("Sla op", "Selecteer"). Full sentences use natural Dutch. In a string with several actions, keep all verbs in the same form and position.
+  Write plain, modern, concise Dutch in the active voice, close to the source. UI space is limited: never make a string longer than needed.
+  Leave out greetings, interjections and jokes (Sorry, Hi, Hello, Howdy, Oops); translate only the factual content.
+  Brand, plugin, theme and author names keep their exact form and capitalization, and take no hyphen in a compound ("WordPress site").
+  Technical terms without a good Dutch equivalent stay English (update, dropdown). The verb "update" is "updaten", never "bijwerken".
+  Add "de", "het" or "aan" only when they make the text clearer.
+  Add the commas Dutch grammar needs, even where the source has none.
+  Percentages take no space: 10%.
+  A date or time format (PHP or JavaScript format codes) is rearranged into Dutch order with 24-hour time: "F j, Y" becomes "j F Y", "g:i a" becomes "G:i".
+
+# [TONE] informal.
+register: '- Address the reader informally with "je/jouw", never "u/uw". Never use "alstublieft" or "a.u.b."; leave "please" out. Friendly and easygoing, but no slang.'
+
+formality: informal
+
+# Added to the review prompt when title-case runs. {language} is replaced with
+# the language name.
+capitalization: |
+  - {language} uses sentence case, not English Title Case: only the first word and proper nouns are capitalized, also in strings of five words or fewer. "Alle Wijzigingen Opslaan" is wrong; "Alle wijzigingen opslaan" is right. Brand names (WordPress, WooCommerce) and acronyms keep their own casing.
+  - {language} capitalizes the names of countries, languages and peoples and the adjectives made from them (Nederlands, Engelse), but writes days of the week and months in lower case (maandag, januari). A capital on a day or month mid-sentence is an English calque.
+  - The digraph ij is capitalized as a whole at the start of a sentence or name: "IJsland", "IJzer", never "Ijsland".
+  - The two kinds of title-case check are not equal evidence. A finding that says the translation "mirrors the English source" means the source itself was Title Case and the translation copied its shape word for word; that is close to proof of an English calque. A finding that only says a word is capitalized mid-string is weaker: check whether the word is a proper noun or a brand before confirming it.
