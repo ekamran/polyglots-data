@@ -32,12 +32,16 @@ export function addedPaths(baseText: string | undefined, headText: string): stri
 /**
  * One pull request may add at most MAX_NEW_PATHS paths, so a stranger's pull
  * request cannot make CI hammer translate.wordpress.org. The repository
- * maintainer is not capped: their requests are the same API sweep a build
- * makes anyway.
+ * maintainer is not capped, and their paths are not requested at all.
  */
 export function newPathsCap(count: number, author: string): Finding | undefined {
   if (count <= MAX_NEW_PATHS || author === REPO_MAINTAINER) return undefined
   return { level: 'error', check: 'new-paths', message: `${count} new paths; at most ${MAX_NEW_PATHS} per pull request, split it` }
+}
+
+/** The maintainer checks their own projects; the build reports a path that does not exist. */
+function maintainerLine(count: number): string {
+  return `${count} new path${count === 1 ? '' : 's'}, not checked on translate.wordpress.org: the repository maintainer checks them`
 }
 
 export async function newPathFindings(added: string[], locales: Array<{ code: string; slug: string; set: string }>, client: HttpClient, author = ''): Promise<{ findings: Finding[]; lines: string[] }> {
@@ -46,6 +50,7 @@ export async function newPathFindings(added: string[], locales: Array<{ code: st
   const err = (message: string) => findings.push({ level: 'error', check: 'new-paths', message })
   const cap = newPathsCap(added.length, author)
   if (cap) return { findings: [cap], lines }
+  if (author === REPO_MAINTAINER) return { findings, lines: added.length ? [maintainerLine(added.length)] : [] }
   for (const path of added) {
     const r = await client.get(apiUrl(path))
     const parsed = r.ok ? parseProjectApi(r.body) : undefined

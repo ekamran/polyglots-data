@@ -7,7 +7,7 @@ import { changedFiles, isFullSha, showFile } from '../check/git.js'
 import { getFileAtRef, listPrFiles, listReviews } from '../check/github.js'
 import { addedPaths, newPathFindings, newPathsCap } from '../check/new-paths.js'
 import { diffItems } from '../check/rules-diff.js'
-import { scopeFindings } from '../check/scope.js'
+import { REPO_MAINTAINER, scopeFindings } from '../check/scope.js'
 import { loadRepo, parseLocaleMeta } from '../config/load.js'
 import { hasErrors, type Finding } from '../findings.js'
 import { loadWpLocales } from '../locales.js'
@@ -81,6 +81,7 @@ try {
   const np: { findings: Finding[]; lines: string[] } = { findings: [], lines: [] }
   const cap = newPathsCap(added.length, author)
   if (cap) np.findings.push(cap)
+  else if (author === REPO_MAINTAINER) np.lines.push(...(await newPathFindings(added.map((a) => a.path), [], client, author)).lines)
   else for (const a of added) { const r = await newPathFindings([a.path], a.locales, client); np.findings.push(...r.findings); np.lines.push(...r.lines) }
   sections.push({ title: 'New projects', findings: np.findings, lines: np.lines.length ? np.lines : added.length ? [] : ['No new project.'] })
 

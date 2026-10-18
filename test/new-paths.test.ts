@@ -32,12 +32,12 @@ describe('new paths', () => {
     const r = await newPathFindings(paths, tr, client({}))
     expect(r.findings).toEqual([{ level: 'error', check: 'new-paths', message: '21 new paths; at most 20 per pull request, split it' }])
   })
-  it('lets the repository maintainer add more than 20 new paths', async () => {
+  it('sends no request for the repository maintainer, whatever the count', async () => {
     const paths = Array.from({ length: 21 }, (_, i) => `wp-plugins/p${i}/dev`)
-    const files = Object.fromEntries(paths.map((p) => [apiUrl(p), sets(100, 100)]))
-    const r = await newPathFindings(paths, tr, client(files), 'emreerkan')
+    const none: HttpClient = { async get(u) { throw new Error(`unexpected request: ${u}`) } }
+    const r = await newPathFindings(paths, tr, none, 'emreerkan')
     expect(r.findings).toEqual([])
-    expect(r.lines).toHaveLength(21)
+    expect(r.lines).toEqual(['21 new paths, not checked on translate.wordpress.org: the repository maintainer checks them'])
   })
   it('caps everyone but the repository maintainer', () => {
     expect(newPathsCap(20, 'someone')).toBeUndefined()
