@@ -44,6 +44,7 @@ client can verify what it downloaded. Each release holds:
 
 | Locale | TM | Rules |
 |---|---|---|
+| nl_NL | yes | maintained |
 | tr_TR | yes | maintained |
 | sv_SE | – | draft |
 | el | – | draft |
@@ -65,7 +66,7 @@ weight.
 
 The `Build` workflow runs:
 
-- weekly, on Mondays at 03:17 UTC, for every locale with a TM;
+- monthly, on the 1st at 03:17 UTC, for every locale with a TM;
 - on a push to `main` that changes `core/`, `locales/`, `data/` or `src/`,
   for the locales the push changed;
 - by hand (`workflow_dispatch`), for one locale, several, or all.

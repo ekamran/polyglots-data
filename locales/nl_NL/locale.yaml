@@ -1,0 +1,6 @@
+locale: nl_NL
+maintainers:
+  - wporg: psmits1567
+    role: General Translation Editor
+rules:
+  status: maintained

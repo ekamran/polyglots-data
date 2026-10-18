@@ -1,0 +1,808 @@
+# Projects added to the nl_NL TM, on top of core/tm.yaml.
+#
+# The 100 themes and 100 plugins with the most active installations whose
+# nl translation was 100% approved on 2026-10-18 (translate.wordpress.org
+# locale stats), leaving out projects core/tm.yaml already has. Within one
+# installations range, the project with more strings comes first.
+# Proposed by the nl_NL GTE.
+projects:
+  - path: wp-themes/astra
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/hello-elementor
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/kadence
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/generatepress
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/oceanwp
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/blocksy
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/twentyseventeen
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/twentytwentythree
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/neve
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/extendable
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/twentytwenty
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/lightning
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/twentytwentytwo
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/popularfx
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/hello-biz
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/royal-elementor-kit
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/twentynineteen
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/twentysixteen
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/sydney
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/hestia
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/inspiro
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/onepress
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/twentyeleven
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/twentyfifteen
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/colibri-wp
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/bluehost-blueprint
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/twentyfourteen
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/twentyten
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/twentytwelve
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/envo-royal
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/colormag
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/go
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/yith-wonder
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/phlox
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/customify
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/total
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/customizr
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/woostify
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/vantage
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/zakra
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/ashe
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/twentythirteen
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/rife-free
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/hueman
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/sinatra
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/kubio
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/spacious
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/envo-one
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/responsive
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/botiga
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/solace
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/crio
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/virtue
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/bloghash
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/nirvana
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/mesmerize
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/newsmatic
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/parabola
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/bravada
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/graphene
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/page-builder-framework
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/variations
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/tutorstarter
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/flash
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/consulting
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/newsup
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/shapely
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/raft
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/nisarg
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/hemingway
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/futurio
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/futurio-storefront
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/blankslate
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/intentionally-blank
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/weaver-xtreme
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/rufous
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/one-page-express
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/blogus
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/accelerate
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/donovan
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/listinghive
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/news-magazine-x
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/bosa
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/tempera
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/prespa
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/silverstorm
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/bard
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/hitmag
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/poseidon
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/newsblogger
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/neve-fse
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/iconic-one
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/lovecraft
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/highlight
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/covernews
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/spectra-one
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/screenr
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/newscard
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/kale
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-themes/radiate
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/contact-form-7/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/litespeed-cache/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/wordfence/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/all-in-one-wp-migration/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/akismet/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/updraftplus/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/insert-headers-and-footers/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/really-simple-ssl/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/duplicate-post/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/hostinger/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/duplicate-page/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/all-in-one-seo-pack/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/advanced-custom-fields/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/header-footer-elementor/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/wordpress-importer/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/wps-hide-login/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/classic-widgets/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/essential-addons-for-elementor-lite/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/ultimate-addons-for-gutenberg/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/all-in-one-wp-security-and-firewall/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/astra-sites/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/complianz-gdpr/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/elementskit-lite/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/wp-optimize/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/cookie-law-info/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/imagify/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/limit-login-attempts-reloaded/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/ewww-image-optimizer/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/wp-smushit/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/custom-post-type-ui/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/wp-super-cache/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/loco-translate/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/wp-reviews-plugin-for-google/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/disable-comments/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/mailchimp-for-wp/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/optinmonster/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/image-optimization/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/sg-cachepress/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/sg-security/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/hostinger-reach/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/one-click-demo-import/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/google-sitemap-generator/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/svg-support/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/tinymce-advanced/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/regenerate-thumbnails/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/better-search-replace/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/maintenance/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/safe-svg/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/worker/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/wp-multibyte-patch/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/w3-total-cache/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/redux-framework/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/wpvivid-backuprestore/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/polylang/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/gtranslate/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/woocommerce-paypal-payments/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/flamingo/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/smart-slider-3/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/better-wp-security/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/mainwp-child/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/fluent-smtp/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/duracelltomi-google-tag-manager/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/creame-whatsapp-me/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/user-role-editor/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/antispam-bee/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/the-events-calendar/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/metform/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/sucuri-scanner/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/easy-table-of-contents/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/tablepress/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/click-to-chat-for-whatsapp/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/backuply/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/under-construction-page/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/enable-media-replace/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/custom-css-js/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/header-footer-code-manager/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/post-types-order/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/contact-form-cfdb7/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/hello-dolly/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/mailpoet/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/ocean-extra/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/pojo-accessibility/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/ninja-forms/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/siteseo/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/broken-link-checker/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/speedycache/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/kirki/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/meta-box/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/woocommerce-services/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/gosmtp/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/webp-converter-for-media/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/siteguard/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/redis-cache/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/disable-gutenberg/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/taxonomy-terms-order/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/happy-elementor-addons/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/backwpup/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/translatepress-multilingual/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/shortcodes-ultimate/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
+  - path: wp-plugins/pagelayer/dev
+    added: 2026-10-18
+    by: psmits1567
+    reviewed: Translated and reviewed by the nl_NL team.
